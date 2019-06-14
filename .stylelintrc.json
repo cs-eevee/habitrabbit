@@ -1,0 +1,57 @@
+{
+  "processors": ["stylelint-processor-styled-components"],
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-idiomatic-order",
+    "./node_modules/prettier-stylelint/config.js",
+    "stylelint-config-styled-components"
+  ],
+  "plugins": [
+    "stylelint-a11y",
+    "stylelint-declaration-block-no-ignored-properties",
+    "stylelint-group-selectors",
+    "stylelint-high-performance-animation",
+    "stylelint-images",
+    "stylelint-media-use-custom-media",
+    "stylelint-no-indistinguishable-colors",
+    "stylelint-no-unsupported-browser-features",
+    "stylelint-selector-bem-pattern",
+    "stylelint-z-index-value-constraint",
+    "stylelint-selector-no-empty"
+  ],
+  "rules": {
+    "indentation": 2,
+    "string-quotes": "single",
+    "a11y/media-prefers-reduced-motion": true,
+    "a11y/no-outline-none": true,
+    "a11y/selector-pseudo-class-focus": true,
+    "plugin/declaration-block-no-ignored-properties": true,
+    "plugin/stylelint-group-selectors": true,
+    "plugin/no-low-performance-animation-properties": true,
+    "images/broken": true,
+    "images/prefer-data-uri": 256,
+    "csstools/media-use-custom-media": "always",
+    "plugin/stylelint-no-indistinguishable-colors": true,
+    "plugin/no-unsupported-browser-features": [
+      true,
+      {
+        "severity": "warning",
+        "browsers": ["> 1%", "Last 2 versions"],
+        "ignore": ["rem"]
+      }
+    ],
+    "plugin/selector-bem-pattern": {
+      "componentName": "[A-Z]+",
+      "componentSelectors": {
+        "initial": "^\\.{componentName}(?:-[a-z]+)?$",
+        "combined": "^\\.combined-{componentName}-[a-z]+$"
+      },
+      "utilitySelectors": "^\\.util-[a-z]+$"
+    },
+    "plugin/z-index-value-constraint": {
+      "min": 1,
+      "max": 10
+    },
+    "plugin/stylelint-selector-no-empty": true
+  }
+}
