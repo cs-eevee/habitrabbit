@@ -24,6 +24,7 @@ class HabitContainer extends Component {
 
   render() {
     const { toggleHabit, habit, habitIndex } = this.props;
+    console.log(this.props.habit);
     return (
       <div>
         <HabitDetails />
