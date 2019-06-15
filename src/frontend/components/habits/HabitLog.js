@@ -11,17 +11,18 @@
 
 import React from 'react';
 
-const HabitLog = props => {
+const renderHabitLogs = props => {
   /**
-   * Maps over a list of habit containers and renders user's habits
+   * Maps over a list of habit logs and renders habit's logs
+   * with checked/unchecked
    *
    * @return {array} list of user's habits rendered in JSX
    *
    * @example
-   * renderHabitContainers()
+   * renderHabitLogs()
    */
 
-  const renderHabitContainers = () => {
+  const renderHabitLogs = () => {
     const { habit, habitIndex } = props;
     return habit.log.map(({ date, checked }, logIndex) => {
       return (
@@ -41,7 +42,7 @@ const HabitLog = props => {
   return (
     <div>
       <div>HabitLog</div>
-      {renderHabitContainers()}
+      {renderHabitLogs()}
     </div>
   );
 };
