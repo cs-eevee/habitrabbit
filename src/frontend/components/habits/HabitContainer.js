@@ -23,10 +23,12 @@ class HabitContainer extends Component {
   }
 
   render() {
-    const { toggleHabit, habit, habitIndex } = this.props;
+    const { toggleHabit, habit } = this.props;
+    const { habitIndex, name, startDate, endDate } = this.props.habit;
+    console.log('habitcontainer:', name, startDate);
     return (
       <div>
-        <HabitDetails />
+        <HabitDetails name={name} startDate={startDate} endDate={endDate} />
         <HabitLog habitIndex={habitIndex} toggleHabit={toggleHabit} habit={habit} />
       </div>
     );

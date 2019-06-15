@@ -11,8 +11,24 @@
 
 import React from 'react';
 
-const HabitDetails = () => {
-  return <div>Habit Details</div>;
+const HabitDetails = props => {
+  const RenderHabitDetails = () => {
+    const { name, startDate, endDate } = props;
+    console.log('name', name);
+    return (
+      <div>
+        <p>Name:{name}</p>
+        <p>Start Date: {startDate}</p>
+        <p>End Date: {endDate}</p>
+      </div>
+    );
+  };
+  return (
+    <div>
+      <div>Habit Details</div>
+      {RenderHabitDetails()}
+    </div>
+  );
 };
 
 export default HabitDetails;
