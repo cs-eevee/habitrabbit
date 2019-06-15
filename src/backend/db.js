@@ -1,14 +1,13 @@
 /**
-* ************************************
-*
-* @module Name of the file, e.g. MarketsDisplay
-* @author Jun
-* @date 06/14/2019
-* @description: Setting up the postgreSQL for our best product
-Description, e.g.presentation component that renders n MarketDispla* y components
-*
-* ************************************
-*/
+ * ************************************
+ *
+ * @module db.js
+ * @author Jun
+ * @date 06/14/2019
+ * @description: Setting up the postgreSQL for our best product
+ *
+ * ************************************
+ */
 
 const { Pool } = require('pg'); // pg module was used to connect uri practically.
 

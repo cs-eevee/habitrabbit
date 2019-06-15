@@ -4,8 +4,9 @@ const Habit = require('./db');
 
 const habitController = {
   createHabit(req, res, next) {
-    const habitTitle = req.body.habitTitle;
-    const userId = req.body.userId;
+    const { habitTitle } = req.body;
+    const { userId } = req.body;
+
     Habit.query(''),
       (err, result) => {
         if (err) throw err;
@@ -13,8 +14,8 @@ const habitController = {
     return next();
   },
   createUserId(req, res, next) {
-    const username = req.body.username;
-    const password = req.body.password;
+    const { username } = req.body;
+    const { password } = req.body;
     Habit.query(''),
       err => {
         if (err) throw err;
@@ -22,16 +23,15 @@ const habitController = {
     return next();
   },
   checkHabit(req, res, next) {
-    const day = req.body.day;
-    const userId = req.body.userId;
-    const habitId = req.body.habitId;
-    const checked = req.body.checked;
+    const { day } = req.body;
+    const { userId } = req.body;
+    const { habitId } = req.body;
+    const { checked } = req.body;
 
-    Habit.query('',
-      (err, result) => {
-        if (err) throw err;
-      }
+    Habit.query('', (err, result) => {
+      if (err) throw err;
       res.locals.day = result;
+    });
     return next();
   },
 };

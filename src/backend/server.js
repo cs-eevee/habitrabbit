@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const app = express();
 const fs = require('fs');
 const path = require('path');
@@ -20,13 +21,14 @@ app.use(bodyParser.json());
 //   });
 //   res.status(200).sendFile(____);
 // });
-app.post(habitController.createHabit, (req, res) => {
+
+app.post('/api/habits/createHabit', habitController.createHabit, (req, res) => {
   res.status(200).json(res.locals.habitname);
 });
 
 // 2. Check habit and toggle
-app.post(habitController.toggleHabit, (req, res) => {
-  res.status(200).json(res.locals.habitname);
+app.post('/api/habits/checkHabit/:id', habitController.checkHabit, (req, res) => {
+  res.status(200).json('habit checked');
 });
 
 // 3. Add error handler to server
