@@ -10,13 +10,14 @@
  */
 
 import React from 'react';
+import HabitParticipants from './HabitParticipants';
 
 const HabitLog = props => {
   /**
    * Maps over a list of habit logs and renders habit's logs
-   * with checked/unchecked
+   * with checked/unchecked.
    *
-   * @return {array} list of user's habits rendered in JSX
+   * @return {array} renders habit name and dates in JSX
    *
    * @example
    * renderHabitLogs()
@@ -34,11 +35,14 @@ const HabitLog = props => {
       );
     });
   };
+  const { participants, log } = props.habit;
+  console.log('props in habitlog:', participants);
 
   return (
     <div>
       <div>HabitLog</div>
-      {renderHabitLogs()}
+      <HabitParticipants participants={participants} />
+      {log && renderHabitLogs()}
     </div>
   );
 };

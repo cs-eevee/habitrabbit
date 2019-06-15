@@ -22,10 +22,16 @@ export const TOGGLE_HABIT = 'TOGGLE_HABIT';
  * addHabit('something')
  */
 
-export function addHabit() {
+export function addHabit(name, startDate, endDate, participants, currentUser) {
   return {
     type: ADD_HABIT,
-    payload: 'nothing for now',
+    payload: {
+      name,
+      startDate,
+      endDate,
+      participants,
+      currentUser,
+    },
   };
 }
 

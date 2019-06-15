@@ -42,7 +42,7 @@ class AppContainer extends Component {
     return (
       <div>
         <button>Add Habit</button>
-        {/* <AddHabit /> */}
+        <AddHabit />
         {this.renderHabitContainers()}
       </div>
     );

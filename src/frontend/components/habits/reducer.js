@@ -54,13 +54,26 @@ const initialState = {
 
 export default function(state = initialState, action) {
   const { type, payload } = action;
+  const { habits } = state;
+  const habitsCopy = [...habits];
   switch (type) {
     case ADD_HABIT:
-      return { ...state, habits: payload };
+      const { name, startDate, endDate, participants, currentUser } = payload;
+      const user = {
+        name: currentUser,
+      };
+      const habitObj = {
+        user,
+        name,
+        startDate,
+        endDate,
+        participants,
+        logs: [],
+      };
+      habitsCopy.push(habitObj);
+      return { ...state, habits: habitsCopy };
     case TOGGLE_HABIT:
       const { habitIndex, logIndex, habit } = payload;
-      const { habits } = state;
-      const habitsCopy = [...habits];
       const habitCopy = Object.assign({}, habit);
       habitCopy.log[logIndex].checked = !habitCopy.log[logIndex].checked;
       habitsCopy[habitIndex] = habitCopy;
