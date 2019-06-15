@@ -27,7 +27,7 @@ class HabitContainer extends Component {
     return (
       <div>
         <HabitDetails />
-        <HabitLog log={habit.log} habitIndex={habitIndex} toggleHabit={toggleHabit} />
+        <HabitLog habitIndex={habitIndex} toggleHabit={toggleHabit} habit={habit} />
       </div>
     );
   }

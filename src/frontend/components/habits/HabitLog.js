@@ -22,13 +22,13 @@ const HabitLog = props => {
    */
 
   const renderHabitContainers = () => {
-    const { log, habitIndex } = props;
-    return log.map(({ date, checked }, logIndex) => {
+    const { habit, habitIndex } = props;
+    return habit.log.map(({ date, checked }, logIndex) => {
       return (
         <div>
           <p>{date}</p>
           <p>{checked ? 'checked' : 'not checked'}</p>
-          <button onClick={() => toggleHabit(habitIndex, logIndex)}>toggleHabit</button>
+          <button onClick={() => toggleHabit(habitIndex, logIndex, habit)}>toggleHabit</button>
         </div>
       );
     });
