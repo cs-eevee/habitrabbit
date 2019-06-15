@@ -33,7 +33,7 @@ const logs = [
   { date: '2019-06-12T04:00:01.665Z', checked: false },
 ];
 
-const habit = {
+const dummyHabit = {
   user: bruce,
   name: 'code',
   startDate: '2019-05-15T04:00:01.665Z',
@@ -45,7 +45,7 @@ const habit = {
 const dummyHabits = [];
 
 for (let i = 0; i < 5; i += 1) {
-  dummyHabits.push(habit);
+  dummyHabits.push(dummyHabit);
 }
 
 const initialState = {
@@ -58,10 +58,10 @@ export default function(state = initialState, action) {
     case ADD_HABIT:
       return { ...state, habits: payload };
     case TOGGLE_HABIT:
-      const { habitIndex, logIndex } = payload;
+      const { habitIndex, logIndex, habit } = payload;
       const { habits } = state;
       const habitsCopy = [...habits];
-      const habitCopy = Object.assign({}, habitsCopy[habitIndex]);
+      const habitCopy = Object.assign({}, habit);
       habitCopy.log[logIndex].checked = !habitCopy.log[logIndex].checked;
       habitsCopy[habitIndex] = habitCopy;
       return { ...state, habits: habitsCopy };

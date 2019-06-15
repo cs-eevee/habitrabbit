@@ -29,9 +29,9 @@ export function addHabit() {
   };
 }
 
-export function toggleHabit(habitIndex, logIndex) {
+export function toggleHabit(habitIndex, logIndex, habit) {
   return {
     type: TOGGLE_HABIT,
-    payload: { habitIndex, logIndex },
+    payload: { habitIndex, logIndex, habit },
   };
 }
