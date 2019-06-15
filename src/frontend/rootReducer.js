@@ -12,9 +12,11 @@
 import { combineReducers } from 'redux';
 
 import habits from './components/habits/reducer';
+import users from './components/users/reducer';
 
 const rootReducer = combineReducers({
   habits,
+  users,
 });
 
 export default rootReducer;
