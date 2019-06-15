@@ -61,12 +61,10 @@ export default function(state = initialState, action) {
       const { habitIndex, logIndex } = payload;
       const { habits } = state;
       const habitsCopy = [...habits];
-      const habitCopy = habitsCopy[habitIndex];
-      const logCopy = Object.assign({}, habitCopy.log[logIndex]);
-      logCopy.checked = !logCopy.checked;
-      habitCopy.log[logIndex] = logCopy;
-      console.log(habitsCopy);
-      return { habits: habitsCopy, ...state };
+      const habitCopy = Object.assign({}, habitsCopy[habitIndex]);
+      habitCopy.log[logIndex].checked = !habitCopy.log[logIndex].checked;
+      habitsCopy[habitIndex] = habitCopy;
+      return { ...state, habits: habitsCopy };
     default:
       return state;
   }
