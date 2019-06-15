@@ -41,8 +41,8 @@ class AddHabit extends Component {
     event.preventDefault();
     console.log('this.props:', this.props);
     const { name, startDate, endDate, participants } = this.state;
-    const { addHabit, currentUser } = this.props;
-    addHabit(name, startDate, endDate, participants, currentUser);
+    const { addHabit, currentUserId } = this.props;
+    addHabit(name, startDate, endDate, participants, currentUserId);
   };
 
   render() {

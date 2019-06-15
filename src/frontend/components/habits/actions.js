@@ -23,6 +23,7 @@ export const TOGGLE_HABIT = 'TOGGLE_HABIT';
  */
 
 export function addHabit(name, startDate, endDate, participants, currentUserId) {
+  console.log('currentUserId and habitTitle from actions', name, currentUserId);
   const data = {
     habitTitle: name,
     userId: currentUserId,
@@ -36,11 +37,12 @@ export function addHabit(name, startDate, endDate, participants, currentUserId) 
       body: JSON.stringify(data),
     })
       .then(response => response.json())
-      .then(() => {
+      .then(newHabit => {
+        const { habit_title } = newHabit;
         return dispatch({
           type: ADD_HABIT,
           payload: {
-            name,
+            name: habit_title,
             startDate,
             endDate,
             participants,

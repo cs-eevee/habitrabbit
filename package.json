@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=production nodemon src/backend/server.js",
     "build": "webpack --env.NODE_ENV=production & nodemon src/backend/server.js",
-    "dev": "webpack-dev-server --env.NODE_ENV=development --open",
+    "dev": "webpack-dev-server --env.NODE_ENV=development --open & NODE_ENV=development nodemon src/backend/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
