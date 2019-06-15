@@ -26,7 +26,7 @@ const HabitLog = props => {
     const { habit, habitIndex, toggleHabit } = props;
     return habit.log.map(({ date, checked }, logIndex) => {
       return (
-        <div>
+        <div key={logIndex}>
           <p>{date}</p>
           <p>{checked ? 'checked' : 'not checked'}</p>
           <button onClick={() => toggleHabit(habitIndex, logIndex, habit)}>toggleHabit</button>
