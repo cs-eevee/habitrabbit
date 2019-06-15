@@ -22,12 +22,16 @@ app.use(bodyParser.json());
 //   res.status(200).sendFile(____);
 // });
 
-app.post('/api/habits/createHabit', habitController.createHabit, (req, res) => {
-  res.status(200).json(res.locals.habitname);
+app.get('/api/habits/createHabit', habitController.createHabit, (req, res) => {
+  res.status(200).json('got');
+});
+
+app.get('/api/habits/createUser', habitController.createUser, (req, res) => {
+  res.status(200).json('Created user');
 });
 
 // 2. Check habit and toggle
-app.post('/api/habits/checkHabit/:id', habitController.checkHabit, (req, res) => {
+app.get('/api/habits/createLog/:id', habitController.createLog, (req, res) => {
   res.status(200).json('habit checked');
 });
 
