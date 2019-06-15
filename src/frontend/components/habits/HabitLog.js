@@ -22,7 +22,7 @@ const HabitLog = props => {
    */
 
   const renderHabitContainers = () => {
-    const { habit, habitIndex } = props;
+    const { habit, habitIndex, toggleHabit } = props;
     return habit.log.map(({ date, checked }, logIndex) => {
       return (
         <div>
@@ -33,10 +33,6 @@ const HabitLog = props => {
       );
     });
   };
-
-  const { toggleHabit } = props;
-
-  console.log(props);
 
   return (
     <div>
