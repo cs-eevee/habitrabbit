@@ -1,3 +1,14 @@
+/**
+ * ************************************
+ *
+ * @module App.js
+ * @author Esther and Bruce
+ * @date 6/14/2019
+ * @description provides redux store to app
+ *
+ * ************************************
+ */
+
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -6,7 +17,7 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import rootReducer from './rootReducer';
 
-import AddHabit from './components/habits/AddHabit';
+import AppContainer from './components/AppContainer';
 
 const middleware = [logger, thunk];
 
@@ -15,7 +26,7 @@ const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...mi
 const App = () => (
   <Provider store={store}>
     <h1>Hello Habit Rabbit!</h1>
-    <AddHabit />
+    <AppContainer />
   </Provider>
 );
 
