@@ -88,7 +88,7 @@ class AddHabit extends Component {
 
 const mapStateToProps = state => ({
   habits: state.habits.habits,
-  currentUser: state.users.currentUser,
+  currentUserId: state.users.currentUserId,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ addHabit }, dispatch);

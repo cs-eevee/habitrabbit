@@ -22,16 +22,32 @@ export const TOGGLE_HABIT = 'TOGGLE_HABIT';
  * addHabit('something')
  */
 
-export function addHabit(name, startDate, endDate, participants, currentUser) {
-  return {
-    type: ADD_HABIT,
-    payload: {
-      name,
-      startDate,
-      endDate,
-      participants,
-      currentUser,
-    },
+export function addHabit(name, startDate, endDate, participants, currentUserId) {
+  const data = {
+    habitTitle: name,
+    userId: currentUserId,
+  };
+  return function(dispatch) {
+    fetch('/api/habits/createHabit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => response.json())
+      .then(() => {
+        return dispatch({
+          type: ADD_HABIT,
+          payload: {
+            name,
+            startDate,
+            endDate,
+            participants,
+            currentUserId,
+          },
+        });
+      });
   };
 }
 
