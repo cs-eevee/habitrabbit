@@ -9,8 +9,7 @@
  * ************************************
  */
 
-import { ADD_HABIT } from './actions';
-import { TOGGLE_HABIT } from './actions';
+import { ADD_HABIT, TOGGLE_HABIT } from './actions';
 
 const bruce = {
   name: 'bruce',
@@ -57,9 +56,17 @@ export default function(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
     case ADD_HABIT:
-      return { habits: payload };
+      return { ...state, habits: payload };
     case TOGGLE_HABIT:
-      return { habits: payload };
+      const { habitIndex, logIndex } = payload;
+      const { habits } = state;
+      const habitsCopy = [...habits];
+      const habitCopy = habitsCopy[habitIndex];
+      const logCopy = Object.assign({}, habitCopy.log[logIndex]);
+      logCopy.checked = !logCopy.checked;
+      habitCopy.log[logIndex] = logCopy;
+      console.log(habitsCopy);
+      return { habits: habitsCopy, ...state };
     default:
       return state;
   }

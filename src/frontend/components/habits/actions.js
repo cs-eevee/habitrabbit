@@ -19,7 +19,7 @@ export const TOGGLE_HABIT = 'TOGGLE_HABIT';
  * @return {string} A good string
  *
  * @example
- * addHabit('soemthing')
+ * addHabit('something')
  */
 
 export function addHabit() {
@@ -29,9 +29,9 @@ export function addHabit() {
   };
 }
 
-export function toggleHabit() {
+export function toggleHabit(habitIndex, logIndex) {
   return {
     type: TOGGLE_HABIT,
-    payload: 'toggle habit',
+    payload: { habitIndex, logIndex },
   };
 }

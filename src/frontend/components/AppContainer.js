@@ -25,19 +25,25 @@ class AppContainer extends Component {
   /**
    * Maps over a list of habit containers and renders user's habits
    *
-   * @param {array} habits - an array of habits
    * @return {array} list of user's habits rendered in JSX
    *
    * @example
-   * renderHabitContainers(habits)
+   * renderHabitContainers()
    */
+
+  renderHabitContainers = () => {
+    const { habits } = this.props;
+    return habits.map((habit, index) => {
+      return <HabitContainer key={index} habitIndex={index} habit={habit} />;
+    });
+  };
 
   render() {
     return (
       <div>
         <button>Add Habit</button>
         {/* <AddHabit /> */}
-        <HabitContainer />
+        {this.renderHabitContainers()}
       </div>
     );
   }

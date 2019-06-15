@@ -23,11 +23,11 @@ class HabitContainer extends Component {
   }
 
   render() {
-    const { toggleHabit } = this.props;
+    const { toggleHabit, habit, habitIndex } = this.props;
     return (
       <div>
         <HabitDetails />
-        <HabitLog toggleHabit={toggleHabit} />
+        <HabitLog log={habit.log} habitIndex={habitIndex} toggleHabit={toggleHabit} />
       </div>
     );
   }
