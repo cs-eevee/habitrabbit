@@ -6,9 +6,11 @@ import { addHabit } from './actions';
 
 class AddHabit extends Component {
   render() {
+    console.log(addHabit);
+
     return (
       <div>
-        <button onClick={() => addHabit()}>Click me</button>
+        <button onClick={() => this.props.addHabit()}>Click me</button>
       </div>
     );
   }
@@ -18,7 +20,7 @@ const mapStateToProps = state => ({
   habits: state.habits.habits,
 });
 
-const mapDispatchToProps = { addHabit };
+const mapDispatchToProps = dispatch => bindActionCreators({ addHabit }, dispatch);
 export default connect(
   mapStateToProps,
   mapDispatchToProps
