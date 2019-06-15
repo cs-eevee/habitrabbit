@@ -2,7 +2,7 @@ import LOGIN_USER from './actions';
 
 // set up initial state
 const initialState = {
-  currentUser: 'jun',
+  currentUserId: 1,
 };
 
 // set up function to return new state to the store
