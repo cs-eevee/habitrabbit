@@ -31,7 +31,6 @@ class AddHabit extends Component {
   }
 
   onTextInputChange = (event, state) => {
-    console.log('event target value', event.target.value);
     this.setState({
       [state]: event.target.value,
     });
@@ -39,7 +38,6 @@ class AddHabit extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log('this.props:', this.props);
     const { name, startDate, endDate, participants } = this.state;
     const { addHabit, currentUserId } = this.props;
     addHabit(name, startDate, endDate, participants, currentUserId);

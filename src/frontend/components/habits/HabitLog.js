@@ -78,7 +78,6 @@ const HabitLog = props => {
     });
   };
   const { participants, log } = props.habit;
-  console.log('props in habitlog:', participants);
 
   return (
     <div>
