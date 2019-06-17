@@ -9,6 +9,7 @@
  * ************************************
  */
 
+require('dotenv').config();
 const { Pool } = require('pg'); // pg module was used to connect uri practically.
 
 // elephantSQL uri address.
