@@ -48,7 +48,7 @@ const dummyHabit = {
 
 const dummyHabits = [];
 
-for (let i = 0; i < 5; i += 1) {
+for (let i = 0; i < 2; i += 1) {
   dummyHabits.push(dummyHabit);
 }
 

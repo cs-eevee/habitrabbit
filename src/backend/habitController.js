@@ -1,16 +1,16 @@
 // db.js connects to a real database. if tests are running slow, you
 
-const Habit = require('./db');
+const Habit = require('./db.js');
 
 const habitController = {
   createHabit(req, res, next) {
-    const { habitTitle, userId } = req.body;
+    const { habitTitle, userId, startDate, endDate } = req.body;
     Habit.query(
-      `INSERT INTO habit(habit_title, user_id) VALUES ('${habitTitle}', '${userId}') returning *;`,
+      `INSERT INTO habit(habit_title, user_id, start_date, end_date) VALUES ('${habitTitle}', '${userId}', '${startDate}', '${endDate}' ) returning *;`,
       (err, result) => {
         if (err) throw err;
         const newHabit = result.rows[0];
-        console.log('newHabit', newHabit);
+        console.log('newHabit:', newHabit);
         res.locals.newHabit = newHabit;
         return next();
       }

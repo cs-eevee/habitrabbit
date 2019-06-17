@@ -28,6 +28,8 @@ export function addHabit(name, startDate, endDate, participants, currentUserId) 
   const data = {
     habitTitle: name,
     userId: currentUserId,
+    startDate,
+    endDate,
   };
   return function(dispatch) {
     fetch('/api/habits/createHabit', {
@@ -39,13 +41,13 @@ export function addHabit(name, startDate, endDate, participants, currentUserId) 
     })
       .then(response => response.json())
       .then(newHabit => {
-        const { habit_title } = newHabit;
+        const { habit_title, start_date, end_date } = newHabit;
         return dispatch({
           type: ADD_HABIT,
           payload: {
             name: habit_title,
-            startDate,
-            endDate,
+            startDate: start_date,
+            endDate: end_date,
             participants,
             currentUserId,
           },
