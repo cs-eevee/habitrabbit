@@ -16,6 +16,8 @@ import HabitDetails from './HabitDetails';
 import HabitLog from './HabitLog';
 import { toggleHabit } from './actions';
 
+import styled from 'styled-components';
+
 class HabitContainer extends Component {
   constructor() {
     super();

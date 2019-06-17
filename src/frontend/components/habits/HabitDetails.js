@@ -10,25 +10,32 @@
  */
 
 import React from 'react';
+import styled from 'styled-components';
+
+const DetailsContainer = styled.div`
+  display: flex;
+  justify-content: spaced-between;
+`;
+const Name = styled.div``;
+const Date = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
 const HabitDetails = props => {
   const RenderHabitDetails = () => {
     const { name, startDate, endDate } = props;
-    console.log('name', name);
     return (
-      <div>
-        <p>Name:{name}</p>
-        <p>Start Date: {startDate}</p>
-        <p>End Date: {endDate}</p>
-      </div>
+      <DetailsContainer>
+        <Name>Task: {name}</Name>
+        <Date>
+          <div>Start Date: {startDate}</div>
+          <div>End Date: {endDate}</div>
+        </Date>
+      </DetailsContainer>
     );
   };
-  return (
-    <div>
-      <div>Habit Details</div>
-      {RenderHabitDetails()}
-    </div>
-  );
+  return <div>{RenderHabitDetails()}</div>;
 };
 
 export default HabitDetails;

@@ -31,6 +31,10 @@ const logs = [
   { date: '2019-06-10T04:00:01.665Z', checked: true },
   { date: '2019-06-11T04:00:01.665Z', checked: true },
   { date: '2019-06-12T04:00:01.665Z', checked: false },
+  { date: '2019-06-12T04:00:01.665Z', checked: false },
+  { date: '2019-06-12T04:00:01.665Z', checked: false },
+  { date: '2019-06-12T04:00:01.665Z', checked: false },
+  { date: '2019-06-12T04:00:01.665Z', checked: false },
 ];
 
 const dummyHabit = {
