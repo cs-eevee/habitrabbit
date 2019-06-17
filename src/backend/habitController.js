@@ -1,6 +1,6 @@
 // db.js connects to a real database. if tests are running slow, you
 
-const Habit = require('./db');
+const Habit = require('./db.js');
 
 const habitController = {
   createHabit(req, res, next) {
