@@ -9,6 +9,8 @@
  * ************************************
  */
 
+import { sendMessage } from '../socket';
+
 export const ADD_HABIT = 'ADD_HABIT';
 export const TOGGLE_HABIT = 'TOGGLE_HABIT';
 
@@ -23,7 +25,6 @@ export const TOGGLE_HABIT = 'TOGGLE_HABIT';
  */
 
 export function addHabit(name, startDate, endDate, participants, currentUserId) {
-  console.log('currentUserId and habitTitle from actions', name, currentUserId);
   const data = {
     habitTitle: name,
     userId: currentUserId,
