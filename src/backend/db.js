@@ -20,4 +20,5 @@ const pool = new Pool({
   connectionString: url,
 });
 
+// export elephantsql database
 module.exports = pool;

@@ -10,6 +10,7 @@
  */
 
 import React from 'react';
+import styled from 'styled-components';
 import HabitParticipants from './HabitParticipants';
 
 const HabitLog = props => {
@@ -23,26 +24,66 @@ const HabitLog = props => {
    * renderHabitLogs()
    */
 
+  const LogContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    background: mistyrose;
+    border-radius: 10px;
+    padding: 10px;
+
+    .fancy {
+      font-style: italic;
+      font-weight: 700;
+      color: tangerine;
+    }
+  `;
+  const LogsContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+  `;
+
+  const CheckboxContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  `;
+
+  // const Button = styled.button`
+  //   background: ${props => props.backgroundColor};
+  //   border: none;
+  // `;
+
   const renderHabitLogs = () => {
     const { habit, habitIndex, toggleHabit } = props;
     return habit.log.map(({ date, checked }, logIndex) => {
       return (
-        <div key={logIndex}>
-          <p>{date}</p>
-          <p>{checked ? 'checked' : 'not checked'}</p>
-          <button onClick={() => toggleHabit(habitIndex, logIndex, habit)}>toggleHabit</button>
-        </div>
+        <LogContainer key={logIndex}>
+          <CheckboxContainer>
+            <input
+              type="checkbox"
+              checked={checked}
+              onClick={() => toggleHabit(habitIndex, logIndex, habit)}
+            />
+          </CheckboxContainer>
+          {/* <Button
+            backgroundColor="dodgerblue"
+            onClick={() => toggleHabit(habitIndex, logIndex, habit)}
+          >
+            toggleHabit
+          </Button> */}
+          <p className="fancy">{date}</p>
+        </LogContainer>
       );
     });
   };
   const { participants, log } = props.habit;
-  console.log('props in habitlog:', participants);
 
   return (
     <div>
       <div>HabitLog</div>
       <HabitParticipants participants={participants} />
-      {log && renderHabitLogs()}
+      <LogsContainer>{log && renderHabitLogs()}</LogsContainer>
     </div>
   );
 };

@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
 const fs = require('fs');
 const path = require('path');
 const pg = require('pg');
@@ -22,12 +25,18 @@ app.use(bodyParser.json());
 //   res.status(200).sendFile(____);
 // });
 
+// api means that it's from server
 app.post('/api/habits/createHabit', habitController.createHabit, (req, res) => {
-  res.status(200).json(res.locals.habitname);
+  console.log('res.locals.newHabit from server', res.locals.newHabit);
+  return res.status(200).send(res.locals.newHabit);
+});
+
+app.post('/api/habits/createUser', habitController.createUser, (req, res) => {
+  res.status(200).json('Created user');
 });
 
 // 2. Check habit and toggle
-app.post('/api/habits/checkHabit/:id', habitController.checkHabit, (req, res) => {
+app.post('/api/habits/createLog/:id', habitController.createLog, (req, res) => {
   res.status(200).json('habit checked');
 });
 
@@ -35,5 +44,16 @@ app.post('/api/habits/checkHabit/:id', habitController.checkHabit, (req, res) =>
 app.use(function(req, res) {
   res.status(400).send('Something broke!');
 });
+
+io.on('connection', socket => {
+  // below we listen if our pot is updated
+  // then emit an event to all connected sockets about the update
+  socket.on('message', state => {
+    console.log(state);
+    socket.broadcast.emit('UPDATED_POT', state);
+  });
+});
+
+server.listen(8000, () => console.log('Web socket connection on port 8000!'));
 
 app.listen(3000);

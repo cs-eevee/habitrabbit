@@ -1,8 +1,9 @@
-import LOGIN_USER from './actions';
+import { LOGIN_USER } from './actions';
 
 // set up initial state
 const initialState = {
-  currentUser: 'jun',
+  currentUserId: '',
+  loggedIn: false,
 };
 
 // set up function to return new state to the store
@@ -13,6 +14,8 @@ export default function(state = initialState, action) {
     case LOGIN_USER:
       return {
         ...state,
+        currentUserId: payload,
+        loggedIn: true,
       };
     default:
       return state;

@@ -11,23 +11,29 @@
 
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import rootReducer from './rootReducer';
-
+import thunk from 'redux-thunk';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import Login from './components/users/Login';
 import AppContainer from './components/AppContainer';
+import rootReducer from './rootReducer';
 
 const middleware = [logger, thunk];
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middleware)));
 
-const App = () => (
-  <Provider store={store}>
-    <h1>Hello Habit Rabbit!</h1>
-    <AppContainer />
-  </Provider>
-);
+const App = () => {
+  return (
+    <Provider store={store}>
+      <Router>
+        <h1> Hello Habit Rabbit!</h1>
+        <Route path="/" exact component={Login} />
+        <Route path="/habits/" exact component={AppContainer} />
+      </Router>
+    </Provider>
+  );
+};
 
 export default App;

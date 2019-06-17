@@ -31,7 +31,6 @@ class AddHabit extends Component {
   }
 
   onTextInputChange = (event, state) => {
-    console.log('event target value', event.target.value);
     this.setState({
       [state]: event.target.value,
     });
@@ -39,10 +38,9 @@ class AddHabit extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log('this.props:', this.props);
     const { name, startDate, endDate, participants } = this.state;
-    const { addHabit, currentUser } = this.props;
-    addHabit(name, startDate, endDate, participants, currentUser);
+    const { addHabit, currentUserId } = this.props;
+    addHabit(name, startDate, endDate, participants, currentUserId);
   };
 
   render() {
@@ -88,7 +86,7 @@ class AddHabit extends Component {
 
 const mapStateToProps = state => ({
   habits: state.habits.habits,
-  currentUser: state.users.currentUser,
+  currentUserId: state.users.currentUserId,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ addHabit }, dispatch);
