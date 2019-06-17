@@ -25,11 +25,13 @@ export const TOGGLE_HABIT = 'TOGGLE_HABIT';
  */
 
 export function addHabit(name, startDate, endDate, participants, currentUserId) {
+  const log = generateLogs(startDate, endDate);
   const data = {
     habitTitle: name,
     userId: currentUserId,
     startDate,
     endDate,
+    log,
   };
   return function(dispatch) {
     fetch('/api/habits/createHabit', {
@@ -61,4 +63,16 @@ export function toggleHabit(habitIndex, logIndex, habit) {
     type: TOGGLE_HABIT,
     payload: { habitIndex, logIndex, habit },
   };
+}
+
+function generateLogs(startDate, endDate) {
+  const dates = [];
+  const endingDate = new Date(endDate);
+  const currentDate = new Date(startDate);
+  dates.push({ date: new Date(startDate), checked: false });
+  while (currentDate.toDateString() !== endingDate.toDateString()) {
+    const newCurrentDate = currentDate.setDate(currentDate.getDate() + 1);
+    dates.push({ date: new Date(newCurrentDate), checked: false });
+  }
+  return dates;
 }

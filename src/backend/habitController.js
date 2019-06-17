@@ -3,20 +3,32 @@
 const Habit = require('./db.js');
 
 const habitController = {
-  createHabit(req, res, next) {
-    const { habitTitle, userId, startDate, endDate } = req.body;
+  async createHabit(req, res, next) {
+    const { habitTitle, userId, startDate, endDate, log } = req.body;
     console.log('body', req.body);
-    Habit.query(
-      `INSERT INTO habit(habit_title, user_id, start_date, end_date) VALUES ('${habitTitle}', '${userId}', '${startDate}', '${endDate}' ) returning *;`,
-      (err, result) => {
-        if (err) console.log(err);
-        console.log(result);
-        const newHabit = result.rows[0];
-        console.log('newHabit:', newHabit);
-        res.locals.newHabit = newHabit;
-        return next();
+    try {
+      await Habit.query('BEGIN');
+      const { rows } = await Habit.query(
+        `INSERT INTO habit(habit_title, user_id, start_date, end_date) VALUES ('${habitTitle}', '${userId}', '${startDate}', '${endDate}' ) returning *;`
+      );
+      console.log('ROWS', rows);
+      // const userIdFromDb = await Habit.query(`SELECT _id FROM app_user JOIN app_user._id =  `);
+      for (const entry of log) {
+        await Habit.query(
+          `INSERT INTO log(habit_id, user_id, day, checked) VALUES ('${rows[0]._id}', '${
+            rows[0].user_id
+          }', '${entry.date}', '${false}') returning *;`
+        );
       }
-    );
+      await Habit.query('COMMIT');
+    } catch (err) {
+      await Habit.query('ROLLBACK');
+      console.log(err);
+    } finally {
+      Habit.release();
+      const newHabit = res.rows[0];
+      res.locals.newHabit = newHabit;
+    }
   },
   createUser(req, res, next) {
     const { username } = req.body;
