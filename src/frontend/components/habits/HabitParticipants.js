@@ -10,7 +10,18 @@
  */
 
 import React from 'react';
+import styled from 'styled-components';
 
+const ParticipantsContainer = styled.div`
+  display: flex;
+`;
+const Participant = styled.div`
+  display: flex;
+  border-radius: 10% 30% 50% 70%;
+  border: 1px solid grey;
+  padding: 5px;
+  margin: 10px;
+`;
 const HabitParticipants = props => {
   const { participants } = props;
 
@@ -24,11 +35,11 @@ const HabitParticipants = props => {
    */
   const renderParticipants = () => {
     return participants.map(participant => {
-      return <div>user:{participant.name}</div>;
+      return <Participant>{participant.name}</Participant>;
     });
   };
 
-  return <div>{renderParticipants()}</div>;
+  return <ParticipantsContainer>{renderParticipants()}</ParticipantsContainer>;
 };
 
 export default HabitParticipants;

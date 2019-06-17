@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 //   res.status(200).sendFile(____);
 // });
 
+// api means that it's from server
 app.post('/api/habits/createHabit', habitController.createHabit, (req, res) => {
   console.log('res.locals.newHabit from server', res.locals.newHabit);
   return res.status(200).send(res.locals.newHabit);
