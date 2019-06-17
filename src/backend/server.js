@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
 const fs = require('fs');
 const path = require('path');
 const pg = require('pg');
@@ -40,5 +43,16 @@ app.post('/api/habits/createLog/:id', habitController.createLog, (req, res) => {
 app.use(function(req, res) {
   res.status(400).send('Something broke!');
 });
+
+io.on('connection', socket => {
+  // below we listen if our pot is updated
+  // then emit an event to all connected sockets about the update
+  socket.on('message', state => {
+    console.log(state);
+    socket.broadcast.emit('UPDATED_POT', state);
+  });
+});
+
+server.listen(8000, () => console.log('Web socket connection on port 8000!'));
 
 app.listen(3000);
