@@ -14,7 +14,8 @@ export default function(state = initialState, action) {
     case LOGIN_USER:
       return {
         ...state,
-        currentUserId: payload,
+        currentUserId: payload.userId,
+        currentUsername: payload.username,
         loggedIn: true,
       };
     default:

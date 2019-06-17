@@ -55,6 +55,23 @@ const habitController = {
       }
     );
   },
+
+  loginUser(req, res, next) {
+    const { username, password } = req.body;
+    Habit.query(
+      `SELECT username, password, _id FROM app_user WHERE username = '${username}'`,
+      (err, result) => {
+        if (err) console.log(err);
+        const user = result.rows[0];
+        const usernameFromDb = user.username;
+        const passwordFromDb = user.password;
+        if (password === passwordFromDb) {
+          res.locals.user = user;
+          return next();
+        }
+      }
+    );
+  },
 };
 
 module.exports = habitController;
