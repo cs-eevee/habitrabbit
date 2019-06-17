@@ -66,13 +66,14 @@ export default function(state = initialState, action) {
       const user = {
         name: currentUser,
       };
+      const newLogs = generateLogs(startDate, endDate);
       const habitObj = {
         user,
         name,
         startDate,
         endDate,
         participants,
-        logs: [],
+        logs: newLogs,
       };
       habitsCopy.push(habitObj);
       return { ...state, habits: habitsCopy };
@@ -85,4 +86,16 @@ export default function(state = initialState, action) {
     default:
       return state;
   }
+}
+
+function generateLogs(startDate, endDate) {
+  const dates = [];
+  const endingDate = new Date(endDate);
+  const currentDate = new Date(startDate);
+  dates.push({ date: new Date(startDate), checked: false });
+  while (currentDate.toDateString() !== endingDate.toDateString()) {
+    const newCurrentDate = currentDate.setDate(currentDate.getDate() + 1);
+    dates.push({ date: new Date(newCurrentDate), checked: false });
+  }
+  return dates;
 }
