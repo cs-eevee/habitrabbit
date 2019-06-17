@@ -9,10 +9,24 @@
  * ************************************
  */
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { addHabit } from './actions';
+
+const Container = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.8);
+`;
 
 class AddHabit extends Component {
   // user is current user
@@ -45,41 +59,48 @@ class AddHabit extends Component {
 
   render() {
     const { name, startDate, endDate, participants } = this.state;
+    const { visible } = this.props;
 
     return (
-      <form onSubmit={e => this.handleSubmit(e)}>
-        <label htmlFor="habit-name" className="habit-name-label">
-          Habit Name:
-          <input
-            type="text"
-            className="habit-name-input"
-            value={name}
-            onChange={e => this.onTextInputChange(e, 'name')}
-          />
-        </label>
-        <label htmlFor="start-date-picker" className="start-date-picker">
-          Start Date:
-          <input
-            type="date"
-            className="smart-date-picker"
-            value={startDate}
-            onChange={e => this.onTextInputChange(e, 'startDate')}
-          />
-        </label>
-        <label
-          htmlFor="end-date-picker"
-          className="end-date-picker"
-          value={endDate}
-          onChange={e => this.onTextInputChange(e, 'endDate')}
-        >
-          End Date: <input type="date" className="end-date-picker" />
-        </label>
-        {/* // TODO: Make this work */}
-        <label htmlFor="participants-input" className="participants-input-label">
-          Participants: <input type="text" className="participants-input" />
-        </label>
-        <input type="submit" className="add-habit-button" value="Create Habit" />
-      </form>
+      <div>
+        {visible && (
+          <Container>
+            <form onSubmit={e => this.handleSubmit(e)}>
+              <label htmlFor="habit-name" className="habit-name-label">
+                Habit Name:
+                <input
+                  type="text"
+                  className="habit-name-input"
+                  value={name}
+                  onChange={e => this.onTextInputChange(e, 'name')}
+                />
+              </label>
+              <label htmlFor="start-date-picker" className="start-date-picker">
+                Start Date:
+                <input
+                  type="date"
+                  className="smart-date-picker"
+                  value={startDate}
+                  onChange={e => this.onTextInputChange(e, 'startDate')}
+                />
+              </label>
+              <label
+                htmlFor="end-date-picker"
+                className="end-date-picker"
+                value={endDate}
+                onChange={e => this.onTextInputChange(e, 'endDate')}
+              >
+                End Date: <input type="date" className="end-date-picker" />
+              </label>
+              {/* // TODO: Make this work */}
+              <label htmlFor="participants-input" className="participants-input-label">
+                Participants: <input type="text" className="participants-input" />
+              </label>
+              <input type="submit" className="add-habit-button" value="Create Habit" />
+            </form>
+          </Container>
+        )}
+      </div>
     );
   }
 }

@@ -2,6 +2,7 @@ import { LOGIN_USER } from './actions';
 
 // set up initial state
 const initialState = {
+  currentUsername: '',
   currentUserId: '',
   loggedIn: false,
 };
@@ -12,9 +13,11 @@ export default function(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
     case LOGIN_USER:
+      const { username, userId } = payload;
       return {
         ...state,
-        currentUserId: payload,
+        currentUsername: username,
+        currentUserId: userId,
         loggedIn: true,
       };
     default:

@@ -19,7 +19,9 @@ import AddHabit from './habits/AddHabit';
 class AppContainer extends Component {
   constructor() {
     super();
-    // this.state = {};
+    this.state = {
+      addHabitVisible: false,
+    };
   }
 
   /**
@@ -32,23 +34,41 @@ class AppContainer extends Component {
    */
 
   renderHabitContainers = () => {
-    const { habits } = this.props;
+    const { habits, currentUsername, currentUserId } = this.props;
     return habits.map((habit, index) => {
-      return <HabitContainer key={index} habitIndex={index} habit={habit} />;
+      return (
+        <HabitContainer
+          key={index}
+          habitIndex={index}
+          habit={habit}
+          username={currentUsername}
+          userId={currentUserId}
+        />
+      );
+    });
+  };
+
+  toggleAddHabitVisibility = () => {
+    this.setState({
+      addHabitVisible: true,
     });
   };
 
   render() {
+    const { addHabitVisible } = this.state;
     return (
       <div>
-        <button>Add Habit</button>
-        <AddHabit />
+        <button onClick={this.toggleAddHabitVisibility}>Add Habit</button>
+        <AddHabit visible={addHabitVisible} />
         {this.renderHabitContainers()}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({ habits: state.habits.habits });
+const mapStateToProps = state => ({
+  habits: state.habits.habits,
+  currentUsername: state.users.currentUsername,
+});
 
 export default connect(mapStateToProps)(AppContainer);

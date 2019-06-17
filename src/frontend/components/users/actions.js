@@ -11,7 +11,10 @@ export function loginUser(username, password) {
     if (user) {
       return dispatch({
         type: LOGIN_USER,
-        payload: user.userId,
+        payload: {
+          username: user.username,
+          userId: user.userId,
+        },
       });
     }
     alert('🐰 did not find user with that password');

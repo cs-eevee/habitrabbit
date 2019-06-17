@@ -9,10 +9,12 @@
  * ************************************
  */
 
-import { sendMessage } from '../socket';
+import { emitMessage } from '../socket';
 
 export const ADD_HABIT = 'ADD_HABIT';
 export const TOGGLE_HABIT = 'TOGGLE_HABIT';
+export const SEND_MESSAGE = 'SEND_MESSAGE';
+export const NEW_MESSAGE = 'NEW_MESSAGE';
 
 /**
  * Add habit to state
@@ -59,4 +61,13 @@ export function toggleHabit(habitIndex, logIndex, habit) {
     type: TOGGLE_HABIT,
     payload: { habitIndex, logIndex, habit },
   };
+}
+
+export function sendMessage(message, username, habitIndex) {
+  const messageObj = {
+    message,
+    username,
+    habitIndex,
+  };
+  emitMessage(messageObj);
 }

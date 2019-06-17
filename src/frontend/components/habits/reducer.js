@@ -9,7 +9,7 @@
  * ************************************
  */
 
-import { ADD_HABIT, TOGGLE_HABIT } from './actions';
+import { ADD_HABIT, TOGGLE_HABIT, NEW_MESSAGE } from './actions';
 
 const bruce = {
   name: 'bruce',
@@ -37,6 +37,25 @@ const logs = [
   { date: '2019-06-12T04:00:01.665Z', checked: false },
 ];
 
+const chat = [
+  {
+    author: 'bruce',
+    text: 'Hey whats up guys',
+  },
+  {
+    author: 'rachel',
+    text: 'Lets code for a long time!',
+  },
+  {
+    author: 'jun',
+    text: 'ok ^___^',
+  },
+  {
+    author: 'esther',
+    text: 'notion...lotion!',
+  },
+];
+
 const dummyHabit = {
   user: bruce,
   name: 'code',
@@ -44,6 +63,7 @@ const dummyHabit = {
   endDate: '2019-06-15T04:00:01.665Z',
   participants: [esther, jun, rachel],
   log: logs,
+  chat,
 };
 
 const dummyHabits = [];
@@ -82,6 +102,17 @@ export default function(state = initialState, action) {
       habitCopy.log[logIndex].checked = !habitCopy.log[logIndex].checked;
       habitsCopy[habitIndex] = habitCopy;
       return { ...state, habits: habitsCopy };
+    case NEW_MESSAGE:
+      console.log(NEW_MESSAGE, payload);
+      const newMessage = {
+        author: payload.username,
+        text: payload.message,
+      };
+      habitsCopy[payload.habitIndex].chat.push(newMessage);
+      return {
+        ...state,
+        habits: habitsCopy,
+      };
     default:
       return state;
   }

@@ -17,12 +17,14 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Login from './components/users/Login';
+import configureSocket from './components/socket';
 import AppContainer from './components/AppContainer';
 import rootReducer from './rootReducer';
 
 const middleware = [logger, thunk];
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middleware)));
+export const socket = configureSocket(store.dispatch);
 
 const App = () => {
   return (

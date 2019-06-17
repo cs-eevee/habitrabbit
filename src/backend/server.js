@@ -48,9 +48,9 @@ app.use(function(req, res) {
 io.on('connection', socket => {
   // below we listen if our pot is updated
   // then emit an event to all connected sockets about the update
-  socket.on('message', state => {
-    console.log(state);
-    socket.broadcast.emit('UPDATED_POT', state);
+  socket.on('SEND_MESSAGE', state => {
+    console.log('Received from client', state);
+    socket.emit('NEW_MESSAGE', state);
   });
 });
 
