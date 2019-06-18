@@ -1,10 +1,19 @@
+/**
+ * ************************************
+ *
+ * @module server.js
+ * @author Rachel and Jun
+ * @date 06/14/2019
+ * @description: define routes and their functionalities
+ *
+ * ************************************
+ */
+
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-
 const fs = require('fs');
 const path = require('path');
 const pg = require('pg');
@@ -12,43 +21,39 @@ const habitController = require('./habitController.js');
 
 app.use(bodyParser.json());
 
-// hello
-// 1. Create habit
-// app.post(function(req, res) {
-//   // EXPRESS WAY: don't need to set content-type
-//   const habit = new habit();
-//   habit.name = req.body.name;
-//   habit.save(function (err) {
-//     if (err) res.send(err);
-//     res.json({ habit: "Coding for 30 days"});
-//   });
-//   res.status(200).sendFile(____);
-// });
-
 // api means that it's from server
+
+// Create a *POST* route for url /api/habits/createHabit
+// send data for new habit
 app.post('/api/habits/createHabit', habitController.createHabit, (req, res) => {
   console.log('res.locals.newHabit from server', res.locals.newHabit);
   return res.status(200).send(res.locals.newHabit);
 });
 
+// Create a *GET* route for url /api/getHabits
+// middleware for retrieving the habit
 app.get('/api/getHabits', habitController.getHabits, (req, res) => {
   return res.status(200).send(res.locals.habits);
 });
 
+// Create a *POST* route for url /api/habits/createUser
+// middleware for creating user
 app.post('/api/habits/createUser', habitController.createUser, (req, res) => {
   res.status(200).json('Created user');
 });
 
-// 2. Check habit and toggle
+// Create a *POST* route for url /api/habits/createLog/:id
+// middleware for creating log
 app.post('/api/habits/createLog/:id', habitController.createLog, (req, res) => {
   res.status(200).json('habit checked');
 });
 
-// 3. Add error handler to server
+// global error handler
 app.use(function(req, res) {
   res.status(400).send('Something broke!');
 });
 
+// web socket
 io.on('connection', socket => {
   // below we listen if our pot is updated
   // then emit an event to all connected sockets about the update
