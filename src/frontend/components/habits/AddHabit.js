@@ -22,8 +22,7 @@ const Container = styled.div`
   height: 100vh;
   display: grid;
   justify-items: center;
-  align-items: center;
-  color: #fff;
+  fdsfsfsdfsdfscolor: #fff;
   background: rgba(0, 0, 0, 0.8);
 `;
 
