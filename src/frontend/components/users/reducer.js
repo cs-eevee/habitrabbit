@@ -1,3 +1,14 @@
+/**
+ * ************************************
+ *
+ * @module reducer.js
+ * @author Bruce
+ * @date 6/16/2019
+ * @description reducer to update users state
+ *
+ * ************************************
+ */
+
 import { LOGIN_USER } from './actions';
 
 // set up initial state

@@ -1,3 +1,14 @@
+/**
+ * ************************************
+ *
+ * @module actions.js
+ * @author Esther and Bruce
+ * @date 6/14/2019
+ * @description action creators for users
+ *
+ * ************************************
+ */
+
 import users from './users.json';
 
 export const LOGIN_USER = 'LOGIN_USER';

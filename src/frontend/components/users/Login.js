@@ -1,3 +1,14 @@
+/**
+ * ************************************
+ *
+ * @module Login.js
+ * @author Bruce
+ * @date 6/16/2019
+ * @description container component for login
+ *
+ * ************************************
+ */
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';

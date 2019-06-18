@@ -1,17 +1,28 @@
-import io from 'socket.io-client';
+/**
+ * ************************************
+ *
+ * @module socket.js
+ * @author Bruce
+ * @date 6/16/2019
+ * @description
+ *
+ * ************************************
+ */
 
-const socket = io('http://localhost:8000');
+// import io from 'socket.io-client';
 
-const configureSocket = dispatch => {
-  socket.on('connect', () => {
-    console.log('connected');
-  });
-  return socket;
-};
+// const socket = io('http://localhost:8000');
 
-export const sendMessage = state => {
-  socket.emit('message', state);
-  console.log('emmited');
-};
+// const configureSocket = dispatch => {
+//   socket.on('connect', () => {
+//     console.log('connected');
+//   });
+//   return socket;
+// };
 
-export default configureSocket;
+// export const sendMessage = state => {
+//   socket.emit('message', state);
+//   console.log('emmited');
+// };
+
+// export default configureSocket;

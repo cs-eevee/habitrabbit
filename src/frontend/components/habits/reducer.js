@@ -9,7 +9,7 @@
  * ************************************
  */
 
-import { ADD_HABIT, TOGGLE_HABIT } from './actions';
+import { ADD_HABIT, TOGGLE_HABIT, GET_HABITS, SET_HABITS } from './actions';
 
 const bruce = {
   name: 'bruce',
@@ -42,8 +42,8 @@ const dummyHabit = {
   name: 'code',
   startDate: '2019-05-15T04:00:01.665Z',
   endDate: '2019-06-15T04:00:01.665Z',
-  participants: [esther, jun, rachel],
-  log: logs,
+  participants: [],
+  // log: logs,
 };
 
 const dummyHabits = [];
@@ -53,7 +53,7 @@ for (let i = 0; i < 2; i += 1) {
 }
 
 const initialState = {
-  habits: dummyHabits,
+  habits: [],
 };
 
 export default function(state = initialState, action) {
@@ -61,6 +61,17 @@ export default function(state = initialState, action) {
   const { habits } = state;
   const habitsCopy = [...habits];
   switch (type) {
+    case SET_HABITS:
+      console.log(payload);
+      return {
+        ...state,
+        habits: payload,
+      };
+    case GET_HABITS:
+      return {
+        ...state,
+        habits: payload,
+      };
     case ADD_HABIT:
       const { name, startDate, endDate, participants, currentUser } = payload;
       const user = {

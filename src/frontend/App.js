@@ -19,16 +19,22 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Login from './components/users/Login';
 import AppContainer from './components/AppContainer';
 import rootReducer from './rootReducer';
+import styled from 'styled-components';
 
 const middleware = [logger, thunk];
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middleware)));
 
+const Header = styled.div`
+  font-family: American Typewriter;
+  font-size: 28px;
+`;
+
 const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <h1> Hello Habit Rabbit!</h1>
+        <Header>habitTracker</Header>
         <Route path="/" exact component={Login} />
         <Route path="/habits/" exact component={AppContainer} />
       </Router>

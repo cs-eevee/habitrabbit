@@ -12,14 +12,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import styled from 'styled-components';
 
 import HabitContainer from './habits/HabitContainer';
 import AddHabit from './habits/AddHabit';
+import Toggle from './Toggle';
+import { getHabits } from './habits/actions';
+
+const Button = styled.button`
+  height: 30px;
+  background-color: #b2ca97;
+  border-radius: 8px;
+  border-color: #404c32;
+`;
 
 class AppContainer extends Component {
   constructor() {
     super();
-    // this.state = {};
+    this.state = {
+      addHabitVisible: false,
+    };
+  }
+
+  componentDidMount() {
+    const { getHabits } = this.props;
+    console.log('COMPONENT_DIDMOUNT');
+    getHabits();
   }
 
   /**
@@ -38,11 +56,24 @@ class AppContainer extends Component {
     });
   };
 
+  toggleAddHabitVisibility = () => {
+    this.setState({
+      addHabitVisible: true,
+    });
+  };
+
   render() {
+    const { addHabitVisible } = this.state;
     return (
       <div>
-        <button>Add Habit</button>
-        <AddHabit />
+        <Toggle>
+          {({ on, toggle }) => (
+            <React.Fragment>
+              <Button onClick={toggle}>+ Add Habit</Button>
+              <AddHabit on={on} toggle={toggle} />
+            </React.Fragment>
+          )}
+        </Toggle>
         {this.renderHabitContainers()}
       </div>
     );
@@ -50,5 +81,9 @@ class AppContainer extends Component {
 }
 
 const mapStateToProps = state => ({ habits: state.habits.habits });
+const mapDispatchToProps = dispatch => bindActionCreators({ getHabits }, dispatch);
 
-export default connect(mapStateToProps)(AppContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AppContainer);

@@ -1,3 +1,13 @@
+/**
+ * ************************************
+ *
+ * @module server.js
+ * @author Rachel and Jun
+ * @date 6/14/2019
+ * @description
+ *
+ * ************************************
+ */
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -29,6 +39,10 @@ app.use(bodyParser.json());
 app.post('/api/habits/createHabit', habitController.createHabit, (req, res) => {
   console.log('res.locals.newHabit from server', res.locals.newHabit);
   return res.status(200).send(res.locals.newHabit);
+});
+
+app.get('/api/getHabits', habitController.getHabits, (req, res) => {
+  return res.status(200).send(res.locals.habits);
 });
 
 app.post('/api/habits/createUser', habitController.createUser, (req, res) => {
