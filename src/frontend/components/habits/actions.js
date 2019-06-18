@@ -13,6 +13,8 @@ import { sendMessage } from '../socket';
 
 export const ADD_HABIT = 'ADD_HABIT';
 export const TOGGLE_HABIT = 'TOGGLE_HABIT';
+export const GET_HABITS = 'GET_HABITS';
+export const SET_HABITS = 'SET_HABITS';
 
 /**
  * Add habit to state
@@ -23,6 +25,21 @@ export const TOGGLE_HABIT = 'TOGGLE_HABIT';
  * @example
  * addHabit('something')
  */
+
+export function getHabits() {
+  return function(dispatch) {
+    fetch('/api/getHabits', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(habits => {
+        return dispatch({ type: SET_HABITS, payload: habits });
+      });
+  };
+}
 
 export function addHabit(name, startDate, endDate, participants, currentUserId) {
   const data = {
@@ -44,13 +61,13 @@ export function addHabit(name, startDate, endDate, participants, currentUserId) 
         const { habit_title, start_date, end_date } = newHabit;
         const getDates = () =>
           function(start_date, end_date) {
-            var dates = [],
-              currentDate = startDate,
-              addDays = function(days) {
-                var date = new Date(this.valueOf());
-                date.setDate(date.getDate() + days);
-                return date;
-              };
+            const dates = [];
+            let currentDate = startDate;
+            const addDays = function(days) {
+              const date = new Date(this.valueOf());
+              date.setDate(date.getDate() + days);
+              return date;
+            };
             while (currentDate <= endDate) {
               dates.push(currentDate);
               currentDate = addDays.call(currentDate, 1);

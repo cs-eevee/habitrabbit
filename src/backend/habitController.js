@@ -3,6 +3,14 @@
 const Habit = require('./db.js');
 
 const habitController = {
+  getHabits(req, res, next) {
+    console.log('getHabits');
+    Habit.query(`SELECT * from habit;`, (err, result) => {
+      if (err) console.log(err);
+      res.locals.habits = result.rows;
+      return next();
+    });
+  },
   createHabit(req, res, next) {
     const { habitTitle, userId, startDate, endDate } = req.body;
     console.log('body', req.body);

@@ -82,7 +82,7 @@ const HabitLog = props => {
   return (
     <div>
       <div>HabitLog</div>
-      <HabitParticipants participants={participants} />
+      {/* <HabitParticipants participants={participants} /> */}
       <LogsContainer>{log && renderHabitLogs()}</LogsContainer>
     </div>
   );
