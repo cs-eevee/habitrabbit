@@ -16,6 +16,7 @@ import styled from 'styled-components';
 
 import HabitContainer from './habits/HabitContainer';
 import AddHabit from './habits/AddHabit';
+import Toggle from './Toggle';
 
 const Button = styled.button`
   height: 30px;
@@ -58,8 +59,14 @@ class AppContainer extends Component {
     const { addHabitVisible } = this.state;
     return (
       <div>
-        <Button onClick={this.toggleAddHabitVisibility}>+ Add Habit</Button>
-        <AddHabit visible={addHabitVisible} />
+        <Toggle>
+          {({ on, toggle }) => (
+            <React.Fragment>
+              <Button onClick={toggle}>+ Add Habit</Button>
+              <AddHabit on={on} toggle={toggle} />
+            </React.Fragment>
+          )}
+        </Toggle>
         {this.renderHabitContainers()}
       </div>
     );
