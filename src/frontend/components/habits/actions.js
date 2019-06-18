@@ -42,6 +42,21 @@ export function addHabit(name, startDate, endDate, participants, currentUserId) 
       .then(response => response.json())
       .then(newHabit => {
         const { habit_title, start_date, end_date } = newHabit;
+        const getDates = () =>
+          function(start_date, end_date) {
+            var dates = [],
+              currentDate = startDate,
+              addDays = function(days) {
+                var date = new Date(this.valueOf());
+                date.setDate(date.getDate() + days);
+                return date;
+              };
+            while (currentDate <= endDate) {
+              dates.push(currentDate);
+              currentDate = addDays.call(currentDate, 1);
+            }
+            return dates;
+          };
         return dispatch({
           type: ADD_HABIT,
           payload: {

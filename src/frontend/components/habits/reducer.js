@@ -27,15 +27,15 @@ const rachel = {
   name: 'rachel',
 };
 
-// const logs = [
-//   { date: '2019-06-10T04:00:01.665Z', checked: true },
-//   { date: '2019-06-11T04:00:01.665Z', checked: true },
-//   { date: '2019-06-12T04:00:01.665Z', checked: false },
-//   { date: '2019-06-12T04:00:01.665Z', checked: false },
-//   { date: '2019-06-12T04:00:01.665Z', checked: false },
-//   { date: '2019-06-12T04:00:01.665Z', checked: false },
-//   { date: '2019-06-12T04:00:01.665Z', checked: false },
-// ];
+const logs = [
+  { date: 'Sun, Jun 9th, 2019', checked: true },
+  { date: 'Sun, Jun 9th, 2019', checked: true },
+  { date: 'Sun, Jun 9th, 2019', checked: false },
+  { date: 'Sun, Jun 9th, 2019', checked: false },
+  { date: 'Sun, Jun 9th, 2019', checked: false },
+  { date: 'Sun, Jun 9th, 2019', checked: false },
+  { date: 'Sun, Jun 9th, 2019', checked: false },
+];
 
 const dummyHabit = {
   user: bruce,
@@ -88,14 +88,39 @@ export default function(state = initialState, action) {
   }
 }
 
+/**
+ * Generates date in the correct format (e.g., Mon, 6/17)
+ *
+ * @param {string} date - A string param
+ * @return {string} - string
+ *
+ * @example
+ * formateDate(date)
+ */
+
+function formatDate(date) {
+  const day = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+  return `${day[date.getDay()]}, ${date.getMonth()}/${date.getDate()}`;
+}
+
+/**
+ * Generates an array of object of dates between startDate and endDate
+ *
+ * @param {string} startDate, endDate - A string param
+ * @return [object] - Array of object
+ *
+ * @example
+ * generateLogs(startDate, endDate)
+ */
+
 function generateLogs(startDate, endDate) {
   const dates = [];
   const endingDate = new Date(endDate);
   const currentDate = new Date(startDate);
-  dates.push({ date: new Date(startDate), checked: false });
+  dates.push({ date: formatDate(new Date(startDate)), checked: false });
   while (currentDate.toDateString() !== endingDate.toDateString()) {
     const newCurrentDate = currentDate.setDate(currentDate.getDate() + 1);
-    dates.push({ date: new Date(newCurrentDate), checked: false });
+    dates.push({ date: formatDate(new Date(newCurrentDate)), checked: false });
   }
   return dates;
 }
