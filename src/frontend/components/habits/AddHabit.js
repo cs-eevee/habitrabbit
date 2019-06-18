@@ -15,18 +15,7 @@ import { bindActionCreators } from 'redux';
 
 import { addHabit } from './actions';
 
-const Container = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: grid;
-  justify-items: center;
-  align-items: center;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.8);
-`;
+const Container = styled.div``;
 
 class AddHabit extends Component {
   // user is current user

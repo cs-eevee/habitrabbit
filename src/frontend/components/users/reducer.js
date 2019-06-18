@@ -13,11 +13,10 @@ export default function(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
     case LOGIN_USER:
-      const { username, userId } = payload;
       return {
         ...state,
-        currentUsername: username,
-        currentUserId: userId,
+        currentUserId: payload.userId,
+        currentUsername: payload.username,
         loggedIn: true,
       };
     default:

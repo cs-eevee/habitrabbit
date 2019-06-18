@@ -26,7 +26,7 @@ class HabitContainer extends Component {
 
   render() {
     const { toggleHabit, habit, habitIndex, username, userId } = this.props;
-    const { name, startDate, endDate } = this.props.habit;
+    const { name, startDate, endDate, habitId } = this.props.habit;
     return (
       <div>
         <HabitDetails name={name} startDate={startDate} endDate={endDate} />
@@ -37,6 +37,7 @@ class HabitContainer extends Component {
           userId={userId}
           sendMessage={sendMessage}
           habitIndex={habitIndex}
+          habitId={habitId}
         />
       </div>
     );

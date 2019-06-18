@@ -69,6 +69,7 @@ class AppContainer extends Component {
 const mapStateToProps = state => ({
   habits: state.habits.habits,
   currentUsername: state.users.currentUsername,
+  currentUserId: state.users.currentUserId,
 });
 
 export default connect(mapStateToProps)(AppContainer);

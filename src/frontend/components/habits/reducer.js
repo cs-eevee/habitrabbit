@@ -64,11 +64,12 @@ const dummyHabit = {
   participants: [esther, jun, rachel],
   log: logs,
   chat,
+  habitId: 23834,
 };
 
 const dummyHabits = [];
 
-for (let i = 0; i < 5; i += 1) {
+for (let i = 0; i < 2; i += 1) {
   dummyHabits.push(dummyHabit);
 }
 
@@ -82,17 +83,17 @@ export default function(state = initialState, action) {
   const habitsCopy = [...habits];
   switch (type) {
     case ADD_HABIT:
-      const { name, startDate, endDate, participants, currentUser } = payload;
-      const user = {
-        name: currentUser,
-      };
+      const { name, startDate, endDate, participants, habitId, userId } = payload;
+      const newLogs = generateLogs(startDate, endDate);
       const habitObj = {
-        user,
+        userId,
         name,
         startDate,
         endDate,
         participants,
-        logs: [],
+        logs: newLogs,
+        chat: [],
+        habitId,
       };
       habitsCopy.push(habitObj);
       return { ...state, habits: habitsCopy };
@@ -116,4 +117,16 @@ export default function(state = initialState, action) {
     default:
       return state;
   }
+}
+
+function generateLogs(startDate, endDate) {
+  const dates = [];
+  const endingDate = new Date(endDate);
+  const currentDate = new Date(startDate);
+  dates.push({ date: new Date(startDate), checked: false });
+  while (currentDate.toDateString() !== endingDate.toDateString()) {
+    const newCurrentDate = currentDate.setDate(currentDate.getDate() + 1);
+    dates.push({ date: new Date(newCurrentDate), checked: false });
+  }
+  return dates;
 }

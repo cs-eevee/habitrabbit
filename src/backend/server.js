@@ -31,6 +31,18 @@ app.post('/api/habits/createHabit', habitController.createHabit, (req, res) => {
   return res.status(200).send(res.locals.newHabit);
 });
 
+app.post('/api/login', habitController.loginUser, (req, res) => {
+  return res.status(200).json(res.locals.user);
+});
+
+app.post('/api/habits/chat/:habitId', habitController.sendMessage, (req, res) => {
+  return res.status(200).json(res.locals.message);
+});
+
+app.get('/api/habits/chat/:habitId', habitController.getMessages, (req, res) => {
+  return res.status(200).json(res.locals.messages);
+});
+
 app.post('/api/habits/createUser', habitController.createUser, (req, res) => {
   res.status(200).json('Created user');
 });

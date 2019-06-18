@@ -45,9 +45,9 @@ export default class Chat extends Component {
 
   handleMessageSubmit = event => {
     const { message } = this.state;
-    const { sendMessage, username, habitIndex } = this.props;
+    const { sendMessage, username, habitIndex, habitId, userId } = this.props;
     event.preventDefault();
-    sendMessage(message, username, habitIndex);
+    sendMessage(message, username, habitIndex, habitId, userId);
   };
   render() {
     const { messages } = this.props;
