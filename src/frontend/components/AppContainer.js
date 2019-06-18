@@ -36,7 +36,6 @@ class AppContainer extends Component {
 
   componentDidMount() {
     const { getHabits } = this.props;
-    console.log('COMPONENT_DIDMOUNT');
     getHabits();
   }
 
@@ -63,7 +62,6 @@ class AppContainer extends Component {
   };
 
   render() {
-    const { addHabitVisible } = this.state;
     return (
       <div>
         <Toggle>

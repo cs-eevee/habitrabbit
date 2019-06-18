@@ -11,12 +11,10 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-const fs = require('fs');
-const path = require('path');
-const pg = require('pg');
 const habitController = require('./habitController.js');
 
 app.use(bodyParser.json());
@@ -26,7 +24,6 @@ app.use(bodyParser.json());
 // Create a *POST* route for url /api/habits/createHabit
 // send data for new habit
 app.post('/api/habits/createHabit', habitController.createHabit, (req, res) => {
-  console.log('res.locals.newHabit from server', res.locals.newHabit);
   return res.status(200).send(res.locals.newHabit);
 });
 
@@ -53,13 +50,13 @@ app.use(function(req, res) {
   res.status(400).send('Something broke!');
 });
 
-// web socket
+// web socket for chat function
 io.on('connection', socket => {
   // below we listen if our pot is updated
   // then emit an event to all connected sockets about the update
   socket.on('message', state => {
     console.log(state);
-    socket.broadcast.emit('UPDATED_POT', state);
+    socket.broadcast.emit('NEW_MESSAGE', state);
   });
 });
 

@@ -1,5 +1,16 @@
+/**
+ * ************************************
+ *
+ * @module Toggle.js
+ * @author Bruce
+ * @date 6/16/2019
+ * @description Universal toggle parent component using
+ * React's render props
+ *
+ * ************************************
+ */
+
 import { Component } from 'react';
-import PropTypes from 'prop-types';
 
 export default class Toggle extends Component {
   constructor() {
@@ -23,11 +34,3 @@ export default class Toggle extends Component {
     });
   }
 }
-
-Toggle.propTypes = {
-  children: PropTypes.func,
-};
-
-Toggle.defaultProps = {
-  children: '',
-};

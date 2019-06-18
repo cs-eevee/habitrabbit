@@ -12,7 +12,7 @@
 require('dotenv').config();
 const { Pool } = require('pg'); // pg module was used to connect uri practically.
 
-// elephantSQL uri address.
+// elephantSQL uri address => SEE OUR GROUP FOR .env FILE
 const url = process.env.DATABASE;
 
 // eslint-disable-next-line no-unused-vars

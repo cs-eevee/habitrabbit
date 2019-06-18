@@ -9,6 +9,7 @@
  * ************************************
  */
 
+/* === BEGIN DUMMY DATA INITIALIZATION  === */
 import { ADD_HABIT, TOGGLE_HABIT, GET_HABITS, SET_HABITS } from './actions';
 
 const bruce = {
@@ -55,6 +56,7 @@ for (let i = 0; i < 2; i += 1) {
 const initialState = {
   habits: [],
 };
+/* === END DUMMY DATA INITIALIZATION  === */
 
 export default function(state = initialState, action) {
   const { type, payload } = action;
@@ -62,7 +64,6 @@ export default function(state = initialState, action) {
   const habitsCopy = [...habits];
   switch (type) {
     case SET_HABITS:
-      console.log(payload);
       return {
         ...state,
         habits: payload,
@@ -128,10 +129,10 @@ function generateLogs(startDate, endDate) {
   const dates = [];
   const endingDate = new Date(endDate);
   const currentDate = new Date(startDate);
-  dates.push({ date: new Date(startDate), checked: false });
+  dates.push({ date: formatDate(new Date(startDate)), checked: false });
   while (currentDate.toDateString() !== endingDate.toDateString()) {
     const newCurrentDate = currentDate.setDate(currentDate.getDate() + 1);
-    dates.push({ date: new Date(newCurrentDate), checked: false });
+    dates.push({ date: formatDate(new Date(newCurrentDate)), checked: false });
   }
   return dates;
 }

@@ -17,17 +17,17 @@ const DetailsContainer = styled.div`
   justify-content: spaced-between;
 `;
 const Name = styled.div`
-  // font-family: monospace;
+  font-family: monospace;
 `;
 const Date = styled.div`
   display: flex;
   flex-direction: row;
 `;
 const StartDate = styled.div`
-  // font-family: monospace;
+  font-family: monospace;
 `;
 const EndDate = styled.div`
-  // font-family: monospace;
+  font-family: monospace;
 `;
 
 const HabitDetails = props => {
@@ -35,10 +35,19 @@ const HabitDetails = props => {
     const { name, startDate, endDate } = props;
     return (
       <DetailsContainer>
-        <Name>Task: {name}</Name>
+        <Name>
+          Task:
+          {name}
+        </Name>
         <Date>
-          <StartDate>Start Date: {startDate}</StartDate>
-          <EndDate>End Date: {endDate}</EndDate>
+          <StartDate>
+            Start Date:
+            {startDate}
+          </StartDate>
+          <EndDate>
+            End Date:
+            {endDate}
+          </EndDate>
         </Date>
       </DetailsContainer>
     );

@@ -9,21 +9,18 @@
  * ************************************
  */
 
-import { sendMessage } from '../socket';
-
 export const ADD_HABIT = 'ADD_HABIT';
 export const TOGGLE_HABIT = 'TOGGLE_HABIT';
 export const GET_HABITS = 'GET_HABITS';
 export const SET_HABITS = 'SET_HABITS';
 
 /**
- * Add habit to state
+ * Get habits from database
  *
- * @param {string} n - A string param
- * @return {string} A good string
+ * @return
  *
  * @example
- * addHabit('something')
+ * getHabits()
  */
 
 export function getHabits() {
@@ -41,6 +38,18 @@ export function getHabits() {
   };
 }
 
+/**
+ * Add habit to state
+ *
+ * @param {string} name - name of the habit
+ * @param {string} startDate - date string of the habit start date
+ * @param {string} endDate - date string of the habit end date
+ * @param {string} participants - array of people to invite to your habit (not yet implemented!)
+ * @param {string} currentUserId -
+ * @return {object} action object of type ADD_HABIT with payload start date and end date of
+ * habit, participants (empty array, not yet implemented), and id of current user
+ *
+ */
 export function addHabit(name, startDate, endDate, participants, currentUserId) {
   const data = {
     habitTitle: name,
@@ -88,6 +97,16 @@ export function addHabit(name, startDate, endDate, participants, currentUserId) 
   };
 }
 
+/**
+ * Toggle a habit checked/unchecked via each habit's log property
+ *
+ * @param {number} habitIndex - index position of habit in habits array
+ * @param {number} logIndex - index position of log in log array of each habit
+ * @param {object} endDate - an individual habit object
+ * @return {object} action object of type TOGGLE_HABIT with payload of index of habit in
+ * habit logs, index of habit in each habit's logs, and the habit object
+ *
+ */
 export function toggleHabit(habitIndex, logIndex, habit) {
   return {
     type: TOGGLE_HABIT,
