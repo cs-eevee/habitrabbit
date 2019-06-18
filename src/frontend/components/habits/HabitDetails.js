@@ -19,7 +19,7 @@ const DetailsContainer = styled.div`
 const Name = styled.div`
   font-family: monospace;
 `;
-const Date = styled.div`
+const DateDetails = styled.div`
   display: flex;
   flex-direction: row;
 `;
@@ -39,7 +39,7 @@ const HabitDetails = props => {
           Task:
           {name}
         </Name>
-        <Date>
+        <DateDetails>
           <StartDate>
             Start Date:
             {startDate}
@@ -48,7 +48,7 @@ const HabitDetails = props => {
             End Date:
             {endDate}
           </EndDate>
-        </Date>
+        </DateDetails>
       </DetailsContainer>
     );
   };
