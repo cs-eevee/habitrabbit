@@ -27,11 +27,10 @@ const HabitLog = props => {
   const LogContainer = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 20px;
-    background: mistyrose;
-    border-radius: 10px;
+    border-width: 1px 0.5px 1px 0.5px;
+    border-style: solid;
     padding: 10px;
-
+    border-color: grey;
     .fancy {
       font-style: italic;
       font-weight: 700;
@@ -45,8 +44,9 @@ const HabitLog = props => {
 
   const CheckboxContainer = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    font-size: 12px;
   `;
 
   // const Button = styled.button`
@@ -60,6 +60,7 @@ const HabitLog = props => {
       return (
         <LogContainer key={logIndex}>
           <CheckboxContainer>
+            <p className="fancy">{date}</p>
             <input
               type="checkbox"
               checked={checked}
@@ -72,7 +73,6 @@ const HabitLog = props => {
           >
             toggleHabit
           </Button> */}
-          <p className="fancy">{date}</p>
         </LogContainer>
       );
     });
