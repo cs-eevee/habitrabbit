@@ -123,17 +123,19 @@ class AddHabit extends Component {
     const { name, startDate, endDate, participants } = this.state;
     const { addHabit, currentUserId } = this.props;
     addHabit(name, startDate, endDate, participants, currentUserId);
+    this.props.toggle();
   };
 
   render() {
     const { name, startDate, endDate, participants } = this.state;
-    const { visible } = this.props;
+    const { on, toggle } = this.props;
 
     return (
       <div>
-        {visible && (
+        {on && (
           <Container>
             <HabitForm onSubmit={e => this.handleSubmit(e)}>
+              <button onClick={toggle}>close</button>
               <HabitName htmlFor="habit-name" className="habit-name-label">
                 Habit Name:
                 <HabitInput
