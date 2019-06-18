@@ -27,23 +27,23 @@ const rachel = {
   name: 'rachel',
 };
 
-const logs = [
-  { date: '2019-06-10T04:00:01.665Z', checked: true },
-  { date: '2019-06-11T04:00:01.665Z', checked: true },
-  { date: '2019-06-12T04:00:01.665Z', checked: false },
-  { date: '2019-06-12T04:00:01.665Z', checked: false },
-  { date: '2019-06-12T04:00:01.665Z', checked: false },
-  { date: '2019-06-12T04:00:01.665Z', checked: false },
-  { date: '2019-06-12T04:00:01.665Z', checked: false },
-];
+// const logs = [
+//   { date: '2019-06-10T04:00:01.665Z', checked: true },
+//   { date: '2019-06-11T04:00:01.665Z', checked: true },
+//   { date: '2019-06-12T04:00:01.665Z', checked: false },
+//   { date: '2019-06-12T04:00:01.665Z', checked: false },
+//   { date: '2019-06-12T04:00:01.665Z', checked: false },
+//   { date: '2019-06-12T04:00:01.665Z', checked: false },
+//   { date: '2019-06-12T04:00:01.665Z', checked: false },
+// ];
 
 const dummyHabit = {
   user: bruce,
   name: 'code',
   startDate: '2019-05-15T04:00:01.665Z',
   endDate: '2019-06-15T04:00:01.665Z',
-  participants: [esther, jun, rachel],
-  log: logs,
+  participants: [],
+  // log: logs,
 };
 
 const dummyHabits = [];

@@ -12,14 +12,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import styled from 'styled-components';
 
 import HabitContainer from './habits/HabitContainer';
 import AddHabit from './habits/AddHabit';
 
+const Button = styled.button`
+  height: 30px;
+  background-color: #b2ca97;
+  border-radius: 8px;
+  border-color: #404c32;
+`;
+
 class AppContainer extends Component {
   constructor() {
     super();
-    // this.state = {};
+    this.state = {
+      addHabitVisible: false,
+    };
   }
 
   /**
@@ -38,11 +48,18 @@ class AppContainer extends Component {
     });
   };
 
+  toggleAddHabitVisibility = () => {
+    this.setState({
+      addHabitVisible: true,
+    });
+  };
+
   render() {
+    const { addHabitVisible } = this.state;
     return (
       <div>
-        <button>Add Habit</button>
-        <AddHabit />
+        <Button onClick={this.toggleAddHabitVisibility}>+ Add Habit</Button>
+        <AddHabit visible={addHabitVisible} />
         {this.renderHabitContainers()}
       </div>
     );
