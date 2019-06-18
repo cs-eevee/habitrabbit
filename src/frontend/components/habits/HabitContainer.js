@@ -12,11 +12,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import styled from 'styled-components';
 import HabitDetails from './HabitDetails';
 import HabitLog from './HabitLog';
 import { toggleHabit } from './actions';
-
-import styled from 'styled-components';
 
 class HabitContainer extends Component {
   constructor() {
@@ -26,10 +25,11 @@ class HabitContainer extends Component {
 
   render() {
     const { toggleHabit, habit, habitIndex } = this.props;
-    const { name, startDate, endDate } = this.props.habit;
+    console.log(this.props.habit);
+    const { habit_title, start_date, end_date } = this.props.habit;
     return (
       <div>
-        <HabitDetails name={name} startDate={startDate} endDate={endDate} />
+        <HabitDetails name={habit_title} startDate={start_date} endDate={end_date} />
         <HabitLog habitIndex={habitIndex} toggleHabit={toggleHabit} habit={habit} />
       </div>
     );

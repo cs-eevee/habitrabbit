@@ -17,6 +17,7 @@ import styled from 'styled-components';
 import HabitContainer from './habits/HabitContainer';
 import AddHabit from './habits/AddHabit';
 import Toggle from './Toggle';
+import { getHabits } from './habits/actions';
 
 const Button = styled.button`
   height: 30px;
@@ -31,6 +32,12 @@ class AppContainer extends Component {
     this.state = {
       addHabitVisible: false,
     };
+  }
+
+  componentDidMount() {
+    const { getHabits } = this.props;
+    console.log('COMPONENT_DIDMOUNT');
+    getHabits();
   }
 
   /**
@@ -74,5 +81,9 @@ class AppContainer extends Component {
 }
 
 const mapStateToProps = state => ({ habits: state.habits.habits });
+const mapDispatchToProps = dispatch => bindActionCreators({ getHabits }, dispatch);
 
-export default connect(mapStateToProps)(AppContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AppContainer);

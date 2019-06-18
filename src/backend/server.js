@@ -31,6 +31,10 @@ app.post('/api/habits/createHabit', habitController.createHabit, (req, res) => {
   return res.status(200).send(res.locals.newHabit);
 });
 
+app.get('/api/getHabits', habitController.getHabits, (req, res) => {
+  return res.status(200).send(res.locals.habits);
+});
+
 app.post('/api/habits/createUser', habitController.createUser, (req, res) => {
   res.status(200).json('Created user');
 });

@@ -9,7 +9,7 @@
  * ************************************
  */
 
-import { ADD_HABIT, TOGGLE_HABIT } from './actions';
+import { ADD_HABIT, TOGGLE_HABIT, GET_HABITS, SET_HABITS } from './actions';
 
 const bruce = {
   name: 'bruce',
@@ -53,7 +53,7 @@ for (let i = 0; i < 2; i += 1) {
 }
 
 const initialState = {
-  habits: dummyHabits,
+  habits: [],
 };
 
 export default function(state = initialState, action) {
@@ -61,6 +61,17 @@ export default function(state = initialState, action) {
   const { habits } = state;
   const habitsCopy = [...habits];
   switch (type) {
+    case SET_HABITS:
+      console.log(payload);
+      return {
+        ...state,
+        habits: payload,
+      };
+    case GET_HABITS:
+      return {
+        ...state,
+        habits: payload,
+      };
     case ADD_HABIT:
       const { name, startDate, endDate, participants, currentUser } = payload;
       const user = {
@@ -117,10 +128,10 @@ function generateLogs(startDate, endDate) {
   const dates = [];
   const endingDate = new Date(endDate);
   const currentDate = new Date(startDate);
-  dates.push({ date: formatDate(new Date(startDate)), checked: false });
+  dates.push({ date: new Date(startDate), checked: false });
   while (currentDate.toDateString() !== endingDate.toDateString()) {
     const newCurrentDate = currentDate.setDate(currentDate.getDate() + 1);
-    dates.push({ date: formatDate(new Date(newCurrentDate)), checked: false });
+    dates.push({ date: new Date(newCurrentDate), checked: false });
   }
   return dates;
 }
