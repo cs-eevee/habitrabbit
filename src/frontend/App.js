@@ -4,7 +4,7 @@
  * @module App.js
  * @author Esther and Bruce
  * @date 6/14/2019
- * @description provides redux store to app
+ * @description provides redux store and router to app
  *
  * ************************************
  */
@@ -15,14 +15,14 @@ import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import styled from 'styled-components';
 import Login from './components/users/Login';
 import AppContainer from './components/AppContainer';
 import rootReducer from './rootReducer';
-import styled from 'styled-components';
 
+// create Redux store with dev tools and thunk middleware
 const middleware = [logger, thunk];
-
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middleware)));
 
 const Header = styled.div`

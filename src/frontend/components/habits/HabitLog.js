@@ -37,6 +37,7 @@ const HabitLog = props => {
       color: tangerine;
     }
   `;
+
   const LogsContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -48,11 +49,6 @@ const HabitLog = props => {
     justify-content: center;
     font-size: 12px;
   `;
-
-  // const Button = styled.button`
-  //   background: ${props => props.backgroundColor};
-  //   border: none;
-  // `;
 
   const renderHabitLogs = () => {
     const { habit, habitIndex, toggleHabit } = props;
@@ -67,12 +63,6 @@ const HabitLog = props => {
               onClick={() => toggleHabit(habitIndex, logIndex, habit)}
             />
           </CheckboxContainer>
-          {/* <Button
-            backgroundColor="dodgerblue"
-            onClick={() => toggleHabit(habitIndex, logIndex, habit)}
-          >
-            toggleHabit
-          </Button> */}
         </LogContainer>
       );
     });
@@ -82,6 +72,7 @@ const HabitLog = props => {
   return (
     <div>
       <div>HabitLog</div>
+      {/* 🐞 BUG! Cannot map HabitParticipants because participants for each habit has not been implemented */}
       {/* <HabitParticipants participants={participants} /> */}
       <LogsContainer>{log && renderHabitLogs()}</LogsContainer>
     </div>

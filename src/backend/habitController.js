@@ -1,22 +1,19 @@
-// db.js connects to a real database. if tests are running slow, you
 /**
  * ************************************
  *
- * @module habitController.js
+ * @module habitContainer.js
  * @author Rachel
- * @date 06/14/2019
- * @description: define routes and their functionality
+ * @date 6/14/2019
+ * @description contains middleware
  *
  * ************************************
  */
 
 const Habit = require('./db.js');
 
-//
 const habitController = {
   // function that retrieves the habit
   getHabits(req, res, next) {
-    console.log('getHabits');
     // using query to set up database
     Habit.query(`SELECT * from habit;`, (err, result) => {
       if (err) console.log(err);
@@ -25,6 +22,7 @@ const habitController = {
       return next();
     });
   },
+
   // function that creates habit
   createHabit(req, res, next) {
     const { habitTitle, userId, startDate, endDate } = req.body;

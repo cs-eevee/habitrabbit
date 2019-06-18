@@ -4,7 +4,7 @@
  * @module HabitParticipants.js
  * @author Esther and Bruce
  * @date 6/14/2019
- * @description component to hold partipants
+ * @description component to hold participants
  *
  * ************************************
  */
