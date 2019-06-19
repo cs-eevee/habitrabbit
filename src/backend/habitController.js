@@ -9,40 +9,47 @@
  * ************************************
  */
 
-const Habit = require('./db.js');
+const db = require('./db.js');
 
 const habitController = {
   // function that retrieves the habit
   getHabits(req, res, next) {
     // using query to set up database
-    Habit.query(`SELECT * from habit;`, (err, result) => {
+    db.query(`SELECT * from habits;`, (err, result) => {
       if (err) console.log(err);
       // rows from result
       res.locals.habits = result.rows;
       return next();
     });
   },
-
   // function that creates habit
   createHabit(req, res, next) {
-    const { habitTitle, userId, startDate, endDate } = req.body;
+    let habitId;
+    const { userId, habitName, habitDescription, startDate, endDate } = req.body;
     // query string used to insert habit table from database
-    Habit.query(
-      `INSERT INTO habit(habit_title, user_id, start_date, end_date) VALUES ('${habitTitle}', '${userId}', '${startDate}', '${endDate}' ) returning *;`,
+    console.log(userId);
+    db.query(
+      `INSERT INTO habits(habit_name, habit_description, start_date, end_date) VALUES ('${habitName}', '${habitDescription}', '${startDate}', '${endDate}' ) returning id;`,
       (err, result) => {
         if (err) throw err;
-        const newHabit = result.rows[0];
-        res.locals.newHabit = newHabit;
-        return next();
+        console.log("result", result)
+        habitId = result.rows[0];
       }
     );
+    const endingDate = new Date(endDate);
+    let currentDate = new Date(startDate);
+    console.log("currentDate". currentDate)
+    while (currentDate.toDateString() !== endingDate.toDateString()) {
+      db.query(`INSERT INTO logs(Date, UserID, HabitID) VALUES ('${currentDate}', '${userId}', '${habitId}')`)
+      currentDate = currentDate.setDate(currentDate.getDate() + 1);
+    }
   },
   // function that creates user
   createUser(req, res, next) {
     const { username } = req.body;
-    const { password } = req.body;
+    const { password } = req.body;ß
     // query string to insert app_user table
-    Habit.query(
+    db.query(
       `INSERT INTO app_user(username, password) VALUES ('${username}', '${password}');`,
       err => {
         if (err) throw err;
@@ -54,8 +61,8 @@ const habitController = {
   createLog(req, res, next) {
     const { day, userId, habitId, checked } = req.body;
     // query string to insert log table
-    Habit.query(
-      `INSERT INTO log(day, checked, user_id, habit_id) VALUES ('${day}','${checked}','${userId}', '${habitId}');`,
+    db.query(
+      `INSERT INTO logs(day, checked, user_id, habit_id) VALUES ('${day}','${checked}','${userId}', '${habitId}');`,
       (err, result) => {
         if (err) throw err;
         res.locals.day = result;
@@ -63,6 +70,7 @@ const habitController = {
       }
     );
   },
+
 };
 
 module.exports = habitController;
