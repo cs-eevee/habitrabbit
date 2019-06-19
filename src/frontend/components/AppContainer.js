@@ -88,7 +88,4 @@ const mapStateToProps = state => ({
   currentUserId: state.users.currentUserId,
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AppContainer);
+export default connect(mapStateToProps)(AppContainer);

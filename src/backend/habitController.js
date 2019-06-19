@@ -12,37 +12,13 @@
 const Habit = require('./db.js');
 
 const habitController = {
-<<<<<<< HEAD
-  // function that retrieves the habit
-  getHabits(req, res, next) {
-    // using query to set up database
-    Habit.query(`SELECT * from habit;`, (err, result) => {
-      if (err) console.log(err);
-      // rows from result
-      res.locals.habits = result.rows;
-      return next();
-    });
-  },
-
-  // function that creates habit
-  createHabit(req, res, next) {
-    const { habitTitle, userId, startDate, endDate } = req.body;
-    // query string used to insert habit table from database
-    Habit.query(
-      `INSERT INTO habit(habit_title, user_id, start_date, end_date) VALUES ('${habitTitle}', '${userId}', '${startDate}', '${endDate}' ) returning *;`,
-      (err, result) => {
-        if (err) throw err;
-        const newHabit = result.rows[0];
-        res.locals.newHabit = newHabit;
-        return next();
-=======
   async createHabit(req, res, next) {
     const { habitTitle, userId, startDate, endDate, log } = req.body;
     console.log('body', req.body);
     try {
       await Habit.query('BEGIN');
       const { rows } = await Habit.query(
-        `INSERT INTO habit(habit_title, user_id, start_date, end_date) VALUES ('${habitTitle}', '${userId}', '${startDate}', '${endDate}' ) returning *;`
+        `INSERT INTO habits(habit_name, habit_description, start_date, end_date) VALUES ('${habitTitle}', '${userId}', '${startDate}', '${endDate}' ) returning *;`
       );
       console.log('ROWS', rows);
       // const userIdFromDb = await Habit.query(`SELECT _id FROM app_user JOIN app_user._id =  `);
@@ -52,7 +28,6 @@ const habitController = {
             rows[0].user_id
           }', '${entry.date}', '${false}') returning *;`
         );
->>>>>>> bd64843a952ac6ed7c21538a5014bbaca87e0f0c
       }
       await Habit.query('COMMIT');
       const newHabit = rows[0];
@@ -95,7 +70,10 @@ const habitController = {
     Habit.query(
       `SELECT username, password, _id FROM app_user WHERE username = '${username}'`,
       (err, result) => {
-        if (err) console.log(err);
+        if (err) {
+          console.log(err);
+          return next(err);
+        }
         const user = result.rows[0];
         const usernameFromDb = user.username;
         const passwordFromDb = user.password;

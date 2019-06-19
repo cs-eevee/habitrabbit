@@ -15,6 +15,8 @@ export const ADD_HABIT = 'ADD_HABIT';
 export const TOGGLE_HABIT = 'TOGGLE_HABIT';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const NEW_MESSAGE = 'NEW_MESSAGE';
+export const SET_HABITS = 'SET_HABITS';
+export const GET_HABITS = 'GET_HABITS';
 
 /**
  * Get habits from database
