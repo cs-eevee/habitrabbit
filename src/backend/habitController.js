@@ -47,7 +47,7 @@ const habitController = {
   // function that creates user
   createUser(req, res, next) {
     const { username } = req.body;
-    const { password } = req.body;ß
+    const { password } = req.body;
     // query string to insert app_user table
     db.query(
       `INSERT INTO app_user(username, password) VALUES ('${username}', '${password}');`,
