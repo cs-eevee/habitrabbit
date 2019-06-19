@@ -1,14 +1,3 @@
-/**
- * ************************************
- *
- * @module server.js
- * @author Rachel and Jun
- * @date 06/14/2019
- * @description: define routes and their functionalities
- *
- * ************************************
- */
-
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -23,31 +12,36 @@ app.use(bodyParser.json());
 
 // Create a *POST* route for url /api/habits/createHabit
 // send data for new habit
-app.post('/api/habits/createHabit', habitController.createHabit, (req, res) => {
-  return res.status(200).send(res.locals.newHabit);
-});
+app.post(
+  '/api/habits/createHabit',
+  habitController.getParticipants,
+  habitController.createHabit,
+  (req, res) => {
+    return res.status(200).send(res.locals.newHabit);
+  }
+);
 
 app.post('/api/login', habitController.loginUser, (req, res) => {
   return res.status(200).json(res.locals.user);
 });
 
-app.post('/api/habits/chat/:habitId', habitController.sendMessage, (req, res) => {
-  return res.status(200).json(res.locals.message);
-});
+// app.post('/api/habits/chat/:habitId', habitController.sendMessage, (req, res) => {
+//   return res.status(200).json(res.locals.message);
+// });
 
-app.get('/api/habits/chat/:habitId', habitController.getMessages, (req, res) => {
-  return res.status(200).json(res.locals.messages);
-});
+// app.get('/api/habits/chat/:habitId', habitController.getMessages, (req, res) => {
+//   return res.status(200).json(res.locals.messages);
+// });
 
-app.post('/api/habits/createUser', habitController.createUser, (req, res) => {
-  res.status(200).json('Created user');
-});
+// app.post('/api/habits/createUser', habitController.createUser, (req, res) => {
+//   res.status(200).json('Created user');
+// });
 
 // Create a *POST* route for url /api/habits/createLog/:id
 // middleware for creating log
-app.post('/api/habits/createLog/:id', habitController.createLog, (req, res) => {
-  res.status(200).json('habit checked');
-});
+// app.post('/api/habits/createLog/:id', habitController.createLog, (req, res) => {
+//   res.status(200).json('habit checked');
+// });
 
 // global error handler
 app.use(function(req, res) {
@@ -55,8 +49,8 @@ app.use(function(req, res) {
 });
 
 app.use((err, req, res, next) => {
-  res.status(400).json({'msg': err});
-})
+  res.status(400).json({ msg: err });
+});
 
 // web socket for chat function
 io.on('connection', socket => {
