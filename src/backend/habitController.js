@@ -22,28 +22,31 @@ const habitController = {
       return next();
     });
   },
+  async getParticipants(req, res, next) {
+    const { participants } = req.body;
+    res.locals.participantsIds = []
+    for(let participant of participants){
+      let participantId = ( await db.query(`SELECT id from users WHERE username = '${participant}' `))
+      participantId = participantId.rows[0].id;
+      res.locals.participantsIds.push(participantId)
+    }
+    next();
+  },
   // function that creates habit
-  createHabit(req, res, next) {
-    let habitId;
+  async createHabit(req, res, next) {    
     const { userId, habitName, habitDescription, startDate, endDate } = req.body;
     // query string used to insert habit table from database
-    console.log(userId);
-    db.query(
-      `INSERT INTO habits(habit_name, habit_description, start_date, end_date) VALUES ('${habitName}', '${habitDescription}', '${startDate}', '${endDate}' ) returning id;`,
-      (err, result) => {
-        if (err) throw err;
-        console.log("result", result)
-        habitId = result.rows[0];
-      }
-    );
-    const endingDate = new Date(endDate);
-    let currentDate = new Date(startDate);
-    console.log("currentDate". currentDate)
-    while (currentDate.toDateString() !== endingDate.toDateString()) {
-      db.query(`INSERT INTO logs(Date, UserID, HabitID) VALUES ('${currentDate}', '${userId}', '${habitId}')`)
-      currentDate = currentDate.setDate(currentDate.getDate() + 1);
+    let habitId = await db.query(
+    `INSERT INTO habits(habit_name, habit_description, start_date, end_date) VALUES 
+    ('${habitName}', '${habitDescription}', '${startDate}', '${endDate}' ) returning id;`);
+    habitId = habitId.rows[0].id;
+    await buildLogs(userId, habitId, startDate, endDate);
+    for(let participantId of res.locals.participantsIds){
+      await buildLogs(participantId, habitId, startDate, endDate)
     }
+    next(); 
   },
+
   // function that creates user
   createUser(req, res, next) {
     const { username } = req.body;
@@ -72,5 +75,19 @@ const habitController = {
   },
 
 };
+
+const buildLogs = async (userId, habitId, startDate, endDate) => {
+  const endingDate = new Date(endDate);
+  let currentDate = new Date(startDate);
+  do {
+    console.log(userId, habitId, "userId, HabitId in buildLogs");
+    // console.log("currentDate", (new Date(currentDate.setDate(currentDate.getDate() + 1))));
+    await db.query(`INSERT INTO logs(date, user_id, habit_id) VALUES 
+    ('${currentDate.toDateString()}', '${userId}', '${habitId}')`);
+    currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
+  } while (currentDate.toDateString() !== endingDate.toDateString());
+  await db.query(`INSERT INTO logs(date, user_id, habit_id) VALUES 
+  ('${endingDate.toDateString()}', '${userId}', '${habitId}')`);
+}
 
 module.exports = habitController;

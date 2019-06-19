@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 
 // Create a *POST* route for url /api/habits/createHabit
 // send data for new habit
-app.post('/api/createHabit', habitController.createHabit, (req, res) => {
+app.post('/api/createHabit', habitController.getParticipants, habitController.createHabit, (req, res) => {
   return res.status(200).send(res.locals.newHabit);
 });
 
