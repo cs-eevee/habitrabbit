@@ -23,27 +23,30 @@ app.use(bodyParser.json());
 
 // Create a *POST* route for url /api/habits/createHabit
 // send data for new habit
-app.post('/api/createHabit', habitController.getParticipants, habitController.createHabit, (req, res) => {
+app.post('/api/createHabit', habitController.createHabit, (req, res) => {
   return res.status(200).send(res.locals.newHabit);
 });
 
+app.post('/api/addParticipant', habitController.addParticipant, (req, res) => {
+  //send back confirmation
+  return res.status(200).json({data: "we made it through"});
+});
+
+app.post('/api/joinHabit', habitController.addHabit, (req, res) => {
+  return res.status(200).json({data: "we made it through"});
+})
+
 // Create a *GET* route for url /api/getHabits
 // middleware for retrieving the habit
-app.get('/api/getHabits', habitController.getHabits, (req, res) => {
-  return res.status(200).send(res.locals.habits);
-});
+// app.get('/api/getHabits', habitController.getHabits, (req, res) => {
+//   return res.status(200).send(res.locals.habits);
+// });
 
-// Create a *POST* route for url /api/habits/createUser
-// middleware for creating user
-app.post('/api/habits/createUser', habitController.createUser, (req, res) => {
-  res.status(200).json('Created user');
-});
-
-// Create a *POST* route for url /api/habits/createLog/:id
-// middleware for creating log
-app.post('/api/habits/createLog/:id', habitController.createLog, (req, res) => {
-  res.status(200).json('habit checked');
-});
+// // Create a *POST* route for url /api/habits/createUser
+// // middleware for creating user
+// app.post('/api/habits/createUser', habitController.createUser, (req, res) => {
+//   res.status(200).json('Created user');
+// });
 
 // global error handler
 app.use(function(req, res) {
