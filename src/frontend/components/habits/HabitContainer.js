@@ -12,9 +12,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import styled from 'styled-components';
 import HabitDetails from './HabitDetails';
 import HabitLog from './HabitLog';
-import { toggleHabit } from './actions';
+import { toggleHabit, sendMessage } from './actions';
+import Chat from './Chat';
 
 class HabitContainer extends Component {
   constructor() {
@@ -23,13 +25,20 @@ class HabitContainer extends Component {
   }
 
   render() {
-    const { toggleHabit, habit, habitIndex } = this.props;
-    console.log(this.props.habit);
-    const { habit_title, start_date, end_date } = this.props.habit;
+    const { toggleHabit, habit, habitIndex, username, userId } = this.props;
+    const { name, startDate, endDate, habitId } = this.props.habit;
     return (
       <div>
         <HabitDetails name={habit_title} startDate={start_date} endDate={end_date} />
         <HabitLog habitIndex={habitIndex} toggleHabit={toggleHabit} habit={habit} />
+        <Chat
+          messages={habit.chat}
+          username={username}
+          userId={userId}
+          sendMessage={sendMessage}
+          habitIndex={habitIndex}
+          habitId={habitId}
+        />
       </div>
     );
   }
@@ -42,7 +51,7 @@ const mapStateToProps = state => ({
   log: state.habits.log,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ toggleHabit }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ toggleHabit, sendMessage }, dispatch);
 
 export default connect(
   mapStateToProps,

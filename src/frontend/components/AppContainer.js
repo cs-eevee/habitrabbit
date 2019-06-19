@@ -34,11 +34,6 @@ class AppContainer extends Component {
     };
   }
 
-  componentDidMount() {
-    const { getHabits } = this.props;
-    getHabits();
-  }
-
   /**
    * Maps over a list of habit containers and renders user's habits
    *
@@ -49,9 +44,23 @@ class AppContainer extends Component {
    */
 
   renderHabitContainers = () => {
-    const { habits } = this.props;
+    const { habits, currentUsername, currentUserId } = this.props;
     return habits.map((habit, index) => {
-      return <HabitContainer key={index} habitIndex={index} habit={habit} />;
+      return (
+        <HabitContainer
+          key={index}
+          habitIndex={index}
+          habit={habit}
+          username={currentUsername}
+          userId={currentUserId}
+        />
+      );
+    });
+  };
+
+  toggleAddHabitVisibility = () => {
+    this.setState({
+      addHabitVisible: true,
     });
   };
 
@@ -62,24 +71,22 @@ class AppContainer extends Component {
   };
 
   render() {
+    const { addHabitVisible } = this.state;
     return (
       <div>
-        <Toggle>
-          {({ on, toggle }) => (
-            <React.Fragment>
-              <Button onClick={toggle}>+ Add Habit</Button>
-              <AddHabit on={on} toggle={toggle} />
-            </React.Fragment>
-          )}
-        </Toggle>
+        <button onClick={this.toggleAddHabitVisibility}>Add Habit</button>
+        <AddHabit visible={addHabitVisible} />
         {this.renderHabitContainers()}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({ habits: state.habits.habits });
-const mapDispatchToProps = dispatch => bindActionCreators({ getHabits }, dispatch);
+const mapStateToProps = state => ({
+  habits: state.habits.habits,
+  currentUsername: state.users.currentUsername,
+  currentUserId: state.users.currentUserId,
+});
 
 export default connect(
   mapStateToProps,
