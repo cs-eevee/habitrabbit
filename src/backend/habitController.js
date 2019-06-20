@@ -18,7 +18,7 @@ const habitController = {
     try {
       await Habit.query('BEGIN');
       const { rows } = await Habit.query(
-        `INSERT INTO habit(habit_title, user_id, start_date, end_date) VALUES ('${habitTitle}', '${userId}', '${startDate}', '${endDate}' ) returning *;`
+        `INSERT INTO habits(habit_name, habit_description, start_date, end_date) VALUES ('${habitTitle}', '${userId}', '${startDate}', '${endDate}' ) returning *;`
       );
       console.log('ROWS', rows);
       // const userIdFromDb = await Habit.query(`SELECT _id FROM app_user JOIN app_user._id =  `);
@@ -38,19 +38,7 @@ const habitController = {
       console.log(err);
     }
   },
-  // function that creates user
-  createUser(req, res, next) {
-    const { username } = req.body;
-    const { password } = req.body;
-    // query string to insert app_user table
-    Habit.query(
-      `INSERT INTO app_user(username, password) VALUES ('${username}', '${password}');`,
-      err => {
-        if (err) throw err;
-        return next();
-      }
-    );
-  },
+
   // function that creates log with day, userid, habitid, and checked boolean
   createLog(req, res, next) {
     const { day, userId, habitId, checked } = req.body;
@@ -58,26 +46,9 @@ const habitController = {
     Habit.query(
       `INSERT INTO log(day, checked, user_id, habit_id) VALUES ('${day}','${checked}','${userId}', '${habitId}');`,
       (err, result) => {
-        if (err) throw err;
+        if (err) next(err);
         res.locals.day = result;
         return next();
-      }
-    );
-  },
-
-  loginUser(req, res, next) {
-    const { username, password } = req.body;
-    Habit.query(
-      `SELECT username, password, _id FROM app_user WHERE username = '${username}'`,
-      (err, result) => {
-        if (err) console.log(err);
-        const user = result.rows[0];
-        const usernameFromDb = user.username;
-        const passwordFromDb = user.password;
-        if (password === passwordFromDb) {
-          res.locals.user = user;
-          return next();
-        }
       }
     );
   },

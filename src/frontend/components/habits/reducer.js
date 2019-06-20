@@ -9,7 +9,7 @@
  * ************************************
  */
 
-import { ADD_HABIT, TOGGLE_HABIT, NEW_MESSAGE } from './actions';
+import { ADD_HABIT, TOGGLE_HABIT, NEW_MESSAGE, SET_HABITS, GET_HABITS } from './actions';
 
 const bruce = {
   name: 'bruce',

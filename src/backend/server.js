@@ -11,47 +11,106 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+require('dotenv').config();
 
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const habitController = require('./habitController.js');
+const authController = require('./authController.js');
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: '/auth/google/callback',
+    },
+    (accessToken, refreshToken, profile, done) => {
+      authController
+        .findUser(profile)
+        .then(user => {
+          if (!user) {
+            authController.createUser(profile);
+          }
+          return user;
+        })
+        .then(user => {
+          console.log(user);
+          done(null, user);
+        })
+        .catch(err => console.log('Error', err));
+    }
+  )
+);
 
 app.use(bodyParser.json());
 
-// api means that it's from server
+// app.get('/', (req, res) => {
+//   return res.status(200).send('Server Working');
+// });
 
-// Create a *POST* route for url /api/habits/createHabit
-// send data for new habit
-app.post('/api/habits/createHabit', habitController.createHabit, (req, res) => {
-  return res.status(200).send(res.locals.newHabit);
-});
+app.get(
+  '/auth/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+  })
+);
 
+<<<<<<< HEAD
 app.post('/api/login', habitController.loginUser, (req, res) => {
   return res.status(200).json(res.locals.user);
+=======
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  authController.setCookie,
+  (req, res) => {
+    // Successful authentication, redirect home.
+    console.log(req.user);
+    res.status(200).json(req.user.id);
+  }
+);
+
+app.post('/habits/createHabit', habitController.createHabit, (req, res) => {
+  return res.status(200).send(res.locals.newHabit);
+>>>>>>> eef322b4e78fdb9271cadd733503438452503e08
 });
 
-app.post('/api/habits/chat/:habitId', habitController.sendMessage, (req, res) => {
+app.post('/habits/chat/:habitId', habitController.sendMessage, (req, res) => {
   return res.status(200).json(res.locals.message);
 });
 
-app.get('/api/habits/chat/:habitId', habitController.getMessages, (req, res) => {
+app.get('/habits/chat/:habitId', habitController.getMessages, (req, res) => {
   return res.status(200).json(res.locals.messages);
 });
 
+<<<<<<< HEAD
 app.post('/api/habits/createUser', habitController.createUser, (req, res) => {
   res.status(200).json('Created user');
 });
 
+=======
+>>>>>>> eef322b4e78fdb9271cadd733503438452503e08
 // Create a *POST* route for url /api/habits/createLog/:id
 // middleware for creating log
-app.post('/api/habits/createLog/:id', habitController.createLog, (req, res) => {
+app.post('/habits/createLog/:id', habitController.createLog, (req, res) => {
   res.status(200).json('habit checked');
 });
 
 // global error handler
-app.use(function(req, res) {
-  res.status(400).send('Something broke!');
+app.use(function(req, res, next) {
+  const err = new Error('Something broke!');
+  return next(err);
+});
+
+app.use((err, req, res, next) => {
+  res.status(400).json({ msg: err });
 });
 
 // web socket for chat function
