@@ -2,7 +2,7 @@ const User = require('./db.js');
 
 const authController = {};
 
-authController.findUser = profile => {
+authController.findUserGoogle = profile => {
   return new Promise((resolve, reject) => {
     const profileId = profile.id;
     User.query(`SELECT * FROM users WHERE profile_id = '${profileId}';`, (err, result) => {
@@ -16,7 +16,7 @@ authController.findUser = profile => {
   });
 };
 
-authController.createUser = profile => {
+authController.createUserGoogle = profile => {
   return new Promise((resolve, reject) => {
     console.log(profile);
     const target = 'Insert INTO users("username", "profile_id") VALUES($1, $2) RETURNING *;';
@@ -35,7 +35,8 @@ authController.createUser = profile => {
 authController.setCookie = (req, res, next) => {
   console.log('cookie controller');
   if (req.user.id) {
-    res.locals.cookie = 'COOOOKIES'; //  req.user.id;
+    res.locals.user = req.body.user;
+    res.locals.cookie = `COOOOKIES + ${req.user.id}`;
     res.cookie('ssid', res.locals.cookie, { httpOnly: true });
   }
   return next();

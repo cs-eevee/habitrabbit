@@ -1,5 +1,7 @@
 export const LOGIN_USER = 'LOGIN_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
+export const GOOGLE_LOGIN = 'GOOGLE_LOGIN';
+export const CREATE_USER = 'CREATE_USER';
 
 /**
  * Login a user by checking credentials in db
@@ -22,12 +24,14 @@ export function loginUser(username, password) {
       },
       body: JSON.stringify(data),
     })
-      .then(response => response.json())
+      .then(response => {
+        return response.json();
+      })
       .then(user => {
         console.log(user);
         return dispatch({
           type: LOGIN_USER,
-          payload: { username: user.username, userId: user._id },
+          payload: { username: user.username, userId: user.id },
         });
       })
       .catch(err => {
@@ -50,12 +54,14 @@ export function createUser(username, password) {
       },
       body: JSON.stringify(data),
     })
-      .then(response => response.json())
+      .then(response => {
+        response.json();
+      })
       .then(user => {
         console.log(user);
         return dispatch({
           type: LOGIN_USER,
-          payload: { username: user.username, userId: user._id },
+          payload: { username: user.username, userId: user.id },
         });
       })
       .catch(err => {
@@ -65,25 +71,19 @@ export function createUser(username, password) {
   };
 }
 
-export function googleLogin(username, password) {
+export function googleLogin() {
   return function(dispatch) {
-    const data = {
-      username,
-      password,
-    };
     fetch('/api/auth/google', {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
     })
-      .then(response => response.json())
+      .then(response => {
+        return response.json();
+      })
       .then(user => {
         console.log(user);
         return dispatch({
           type: LOGIN_USER,
-          payload: { username: user.username, userId: user._id },
+          payload: { username: user.username, userId: user.id },
         });
       })
       .catch(err => {
@@ -92,7 +92,3 @@ export function googleLogin(username, password) {
       });
   };
 }
-
-
-
-

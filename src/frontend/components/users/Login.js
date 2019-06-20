@@ -14,19 +14,41 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
+import googleLogo from '../../assets/google-alt.png';
+import { loginUser, googleLogin, createUser } from './actions';
 
-import { loginUser } from './actions';
+const LoginContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: space-evenly;
+  width: 30%;
+`;
 
-const LoginContainer = styled.form`
-  display: grid;
-  justify-items: center;
-  align-items: center;
+const LoginButton = styled.input`
+  height: 20px;
+  width: 70px;
+  text: black;
+  background-color: #b2ca97;
+  border-radius: 4px;
+  border-color: #404c32;
 `;
 
 const Login = props => {
-  const { loginUser, loggedIn } = props;
+  const { loginUser, createUser, loggedIn, googleLogin } = props;
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleAuthClick = event => {
+    // event.preventDefault();
+    //window.location = 'http://localhost:3000/api/auth/google';
+    googleLogin();
+  };
+
+  const handleSignUpSubmit = event => {
+    event.preventDefault();
+    createUser(username, password);
+  };
 
   const handleLoginSubmit = event => {
     event.preventDefault();
@@ -39,30 +61,51 @@ const Login = props => {
     setPassword(event.target.value);
   };
 
-  if (loggedIn === true) {
-    return <Redirect to="/habits/" />;
-  }
+  // if (loggedIn === true) {
+  //   return <Redirect to="/habits/" />;
+  // }
 
   return (
     <LoginContainer>
-      <button type="button">
-        <img src="../frontend/assets.google-sign-in.png" alt="Google Sign In" />
-      </button>
-      <form id="localLogin" onSubmit={handleLoginSubmit}>
-        <input
-          type="text"
-          className="username-input"
-          placeholder="Enter username"
-          onChange={handleUsernameChange}
-        />
-        <input
-          type="password"
-          className="password-input"
-          placeholder="Enter password"
-          onChange={handlePasswordChange}
-        />
-        <input type="submit" className="login-button" value="Login" />
-      </form>
+      <div id="oAuthDiv">
+        <button type="button" onClick={handleAuthClick}>
+          <img src={googleLogo} alt="Google Sign In" />
+        </button>
+      </div>
+      <div id="localLoginDiv">
+        <form id="localLoginForm" onSubmit={handleLoginSubmit}>
+          <input
+            type="text"
+            className="username-input"
+            placeholder="Enter username"
+            onChange={handleUsernameChange}
+          />
+          <input
+            type="password"
+            className="password-input"
+            placeholder="Enter password"
+            onChange={handlePasswordChange}
+          />
+          <LoginButton type="submit" className="login-button" value="Login" />
+        </form>
+      </div>
+      <div id="localSignUpDiv">
+        <form id="localSignUpForm" onSubmit={handleSignUpSubmit}>
+          <input
+            type="text"
+            className="username-input"
+            placeholder="Enter username"
+            onChange={handleUsernameChange}
+          />
+          <input
+            type="password"
+            className="password-input"
+            placeholder="Enter password"
+            onChange={handlePasswordChange}
+          />
+          <LoginButton type="submit" className="login-button" value="SignUp" />
+        </form>
+      </div>
     </LoginContainer>
   );
 };
@@ -71,7 +114,8 @@ const mapStateToProps = state => ({
   currentUserId: state.users.currentUserId,
   loggedIn: state.users.loggedIn,
 });
-const mapDispatchToProps = dispatch => bindActionCreators({ loginUser }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ loginUser, googleLogin, createUser }, dispatch);
 export default connect(
   mapStateToProps,
   mapDispatchToProps

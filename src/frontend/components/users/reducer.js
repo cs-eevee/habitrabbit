@@ -15,7 +15,7 @@ import { LOGIN_USER } from './actions';
 const initialState = {
   currentUsername: '',
   currentUserId: '',
-  loggedIn: true,
+  loggedIn: false,
 };
 
 // set up function to return new state to the store

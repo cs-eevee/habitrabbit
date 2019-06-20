@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * ************************************
  *
@@ -16,12 +17,11 @@ import styled from 'styled-components';
 import HabitDetails from './HabitDetails';
 import HabitLog from './HabitLog';
 import { toggleHabit, sendMessage } from './actions';
-import Chat from './Chat';
+import Chat from './Chat.js';
 
 class HabitContainer extends Component {
   constructor() {
     super();
-    // this.state = {};
   }
 
   render() {

@@ -15,6 +15,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config();
+const cors = require('cors');
 
 const app = express();
 const server = require('http').Server(app);
@@ -22,6 +23,12 @@ const io = require('socket.io')(server);
 const habitController = require('./habitController.js');
 const authController = require('./authController.js');
 
+app.use(cors({ origin: 'http://localhost:8080' }));
+// app.use(function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//   next();
+// });
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(passport.initialize());
@@ -40,14 +47,14 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: '/auth/google/callback',
+      callbackURL: '/api/auth/google/callback',
     },
     (accessToken, refreshToken, profile, done) => {
       authController
-        .findUser(profile)
+        .findUserGoogle(profile)
         .then(user => {
           if (!user) {
-            authController.createUser(profile);
+            authController.createUserGoogle(profile);
           }
           return user;
         })
@@ -59,10 +66,6 @@ passport.use(
     }
   )
 );
-
-// app.get('/', (req, res) => {
-//   return res.status(200).send('Server Working');
-// });
 
 app.get(
   '/api/auth/google',
@@ -77,8 +80,8 @@ app.get(
   authController.setCookie,
   (req, res) => {
     // Successful authentication, redirect home.
-    console.log(req.user);
-    res.status(200).json(req.user);
+    // res.status(200).send(res.locals.user);
+    res.render('../frontend/AppContainer');
   }
 );
 
@@ -102,12 +105,13 @@ app.post('/habits/createLog/:id', habitController.createLog, (req, res) => {
 
 // global error handler
 app.use(function(req, res, next) {
-  const err = new Error('Something broke!');
+  const err = new Error();
+  err.message = 'Something Broke!';
   return next(err);
 });
 
 app.use((err, req, res, next) => {
-  res.status(400).json({ msg: err });
+  res.status(400).json(err.message);
 });
 
 // web socket for chat function
