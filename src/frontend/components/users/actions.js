@@ -15,12 +15,11 @@ export function loginUser(username, password) {
       username,
       password,
     };
-    fetch('/api/login', {
-      method: 'POST',
+    fetch('/auth/google', {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
     })
       .then(response => response.json())
       .then(user => {
