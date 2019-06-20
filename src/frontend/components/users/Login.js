@@ -61,9 +61,9 @@ const Login = props => {
     setPassword(event.target.value);
   };
 
-  // if (loggedIn === true) {
-  //   return <Redirect to="/habits/" />;
-  // }
+  if (loggedIn === true) {
+    return <Redirect to="/habits/" />;
+  }
 
   return (
     <LoginContainer>
