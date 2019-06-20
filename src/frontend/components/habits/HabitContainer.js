@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import HabitDetails from './HabitDetails';
 import HabitLog from './HabitLog';
-import { toggleHabit, sendMessage } from './actions';
+import { toggleHabit, sendMessage, getHabits } from './actions';
 import Chat from './Chat';
 
 class HabitContainer extends Component {
@@ -30,7 +30,7 @@ class HabitContainer extends Component {
     return (
       <div>
         <HabitDetails name={habit_title} startDate={start_date} endDate={end_date} />
-        <HabitLog habitIndex={habitIndex} toggleHabit={toggleHabit} habit={habit} />
+        <HabitLog habitIndex={habitIndex} date={this.props.date} toggleHabit={toggleHabit} habit={habit} />
         <Chat
           messages={habit.chat}
           username={username}
@@ -51,7 +51,7 @@ const mapStateToProps = state => ({
   log: state.habits.log,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ toggleHabit, sendMessage }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ toggleHabit, sendMessage, getHabits }, dispatch);
 
 export default connect(
   mapStateToProps,

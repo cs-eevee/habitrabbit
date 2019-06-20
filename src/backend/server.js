@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 // Create a *POST* route for url /api/habits/createHabit
 // send data for new habit
 app.post('/api/createHabit', habitController.createHabit, (req, res) => {
-  return res.status(200).send(res.locals.newHabit);
+  return res.status(200).send({data: true});
 });
 
 app.post('/api/addParticipant', habitController.addParticipant, (req, res) => {
@@ -34,19 +34,22 @@ app.post('/api/addParticipant', habitController.addParticipant, (req, res) => {
 
 app.post('/api/joinHabit', habitController.addHabit, (req, res) => {
   return res.status(200).json({data: "we made it through"});
-})
+});
 
 // Create a *GET* route for url /api/getHabits
 // middleware for retrieving the habit
-// app.get('/api/getHabits', habitController.getHabits, (req, res) => {
-//   return res.status(200).send(res.locals.habits);
-// });
+app.post('/api/getHabits', habitController.getHabits, (req, res) => {
+  return res.status(200).send(res.locals.databaseInfo);
+});
 
 // // Create a *POST* route for url /api/habits/createUser
 // // middleware for creating user
 // app.post('/api/habits/createUser', habitController.createUser, (req, res) => {
 //   res.status(200).json('Created user');
 // });
+app.post('/api/login', habitController.loginUser, (req, res) => {
+  return res.status(200).json(res.locals.user);
+});
 
 // global error handler
 app.use(function(req, res) {

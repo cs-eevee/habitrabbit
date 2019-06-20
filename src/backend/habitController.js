@@ -2,14 +2,30 @@ const db = require('./db.js');
 
 const habitController = {
   // function that retrieves the habit
-  getHabits(req, res, next) {
-    // using query to set up database
-    db.query(`SELECT * from habits;`, (err, result) => {
-      if (err) console.log(err);
-      // rows from result
-      res.locals.habits = result.rows;
-      return next();
-    });
+  async getHabits(req, res, next) {
+    const { userId } = req.body;
+    const logs = await db.query(
+      `SELECT logs.date, logs.checked, logs.habit_id
+        FROM logs
+        JOIN habits ON habits.id = logs.habit_id
+        WHERE logs.user_id = ${userId}`
+    );
+    const logsArr = logs.rows;
+    console.log('logArr', logsArr);
+    const habits = await db.query(
+      `SELECT DISTINCT habits.id, habits.habit_name, habits.habit_description, habits.start_date, habits.end_date
+        FROM habits
+        INNER JOIN logs ON logs.habit_id = habits.id 
+        WHERE logs.user_id = ${userId}`
+    );
+    const habitsArr = habits.rows;
+    console.log('habitArr', habitsArr);
+    res.locals.databaseInfo = {
+      Logs: logsArr,
+      Habits: habitsArr,
+    };
+    console.log('info:', res.locals.databaseInfo);
+    return next();
   },
   async addParticipant(req, res, next) {
     console.log('getParticipants start');

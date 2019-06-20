@@ -30,6 +30,8 @@ class AppContainer extends Component {
   constructor() {
     super();
     this.state = {
+      logs: [],
+      habits: [],
       addHabitVisible: false,
     };
   }
@@ -43,9 +45,25 @@ class AppContainer extends Component {
    * renderHabitContainers()
    */
 
+  componentDidMount() {
+    const data = {
+      userId: 2
+    };
+    fetch('/api/getHabits', {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+    })
+    .then(res => res.json())
+    .then( something => console.log(something))
+    .catch(err => console.log(err));
+  }
+
   renderHabitContainers = () => {
-    const { habits, currentUsername, currentUserId } = this.props;
-    return habits.map((habit, index) => {
+    console.log('we rendering habit container?')
+    return this.state.habits.map((habit, index) => {
       return (
         <HabitContainer
           key={index}
@@ -75,17 +93,11 @@ class AppContainer extends Component {
     return (
       <div>
         <button onClick={this.toggleAddHabitVisibility}>Add Habit</button>
-        <AddHabit visible={addHabitVisible} />
+        <AddHabit visible={addHabitVisible}/>
         {this.renderHabitContainers()}
       </div>
     );
   }
 }
-
-const mapStateToProps = state => ({
-  habits: state.habits.habits,
-  currentUsername: state.users.currentUsername,
-  currentUserId: state.users.currentUserId,
-});
 
 export default connect(mapStateToProps)(AppContainer);

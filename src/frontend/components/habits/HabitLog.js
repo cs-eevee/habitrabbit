@@ -23,33 +23,7 @@ const HabitLog = props => {
    * @example
    * renderHabitLogs()
    */
-
-  const LogContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    border-width: 1px 0.5px 1px 0.5px;
-    border-style: solid;
-    padding: 10px;
-    border-color: grey;
-    .fancy {
-      font-style: italic;
-      font-weight: 700;
-      color: tangerine;
-    }
-  `;
-
-  const LogsContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-  `;
-
-  const CheckboxContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-size: 12px;
-  `;
-
+  
   const renderHabitLogs = () => {
     const { habit, habitIndex, toggleHabit } = props;
     return habit.log.map(({ date, checked }, logIndex) => {
@@ -61,14 +35,14 @@ const HabitLog = props => {
               type="checkbox"
               checked={checked}
               onClick={() => toggleHabit(habitIndex, logIndex, habit)}
-            />
+              />
           </CheckboxContainer>
         </LogContainer>
       );
     });
   };
   const { participants, log } = props.habit;
-
+  
   return (
     <div>
       <div>HabitLog</div>
@@ -79,4 +53,29 @@ const HabitLog = props => {
   );
 };
 
+const LogContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-width: 1px 0.5px 1px 0.5px;
+  border-style: solid;
+  padding: 10px;
+  border-color: grey;
+  .fancy {
+    font-style: italic;
+    font-weight: 700;
+    color: tangerine;
+  }
+`;
+
+const LogsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const CheckboxContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 12px;
+`;
 export default HabitLog;
