@@ -25,19 +25,19 @@ const LoginContainer = styled.form`
 
 const Login = props => {
   const { loginUser, loggedIn } = props;
-  // const [username, setUsername] = useState('');
-  // const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLoginSubmit = event => {
     event.preventDefault();
     loginUser(username, password);
   };
-  // const handleUsernameChange = event => {
-  //   setUsername(event.target.value);
-  // };
-  // const handlePasswordChange = event => {
-  //   setPassword(event.target.value);
-  // };
+  const handleUsernameChange = event => {
+    setUsername(event.target.value);
+  };
+  const handlePasswordChange = event => {
+    setPassword(event.target.value);
+  };
 
   if (loggedIn === true) {
     return <Redirect to="/habits/" />;
@@ -45,9 +45,24 @@ const Login = props => {
 
   return (
     <LoginContainer>
-      <button type="button" onClick={handleLoginSubmit}>
+      <button type="button">
         <img src="../frontend/assets.google-sign-in.png" alt="Google Sign In" />
       </button>
+      <form id="localLogin" onSubmit={handleLoginSubmit}>
+        <input
+          type="text"
+          className="username-input"
+          placeholder="Enter username"
+          onChange={handleUsernameChange}
+        />
+        <input
+          type="password"
+          className="password-input"
+          placeholder="Enter password"
+          onChange={handlePasswordChange}
+        />
+        <input type="submit" className="login-button" value="Login" />
+      </form>
     </LoginContainer>
   );
 };

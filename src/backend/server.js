@@ -11,6 +11,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config();
@@ -21,8 +22,18 @@ const io = require('socket.io')(server);
 const habitController = require('./habitController.js');
 const authController = require('./authController.js');
 
+app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
 
 passport.use(
   new GoogleStrategy(
@@ -41,35 +52,33 @@ passport.use(
           return user;
         })
         .then(user => {
-          console.log(user);
-          done(null, user);
+          console.log('Back to passport', user);
+          return done(null, user);
         })
-        .catch(err => console.log('Error', err));
+        .catch(err => done(err, null));
     }
   )
 );
-
-app.use(bodyParser.json());
 
 // app.get('/', (req, res) => {
 //   return res.status(200).send('Server Working');
 // });
 
 app.get(
-  '/auth/google',
+  '/api/auth/google',
   passport.authenticate('google', {
     scope: ['profile', 'email'],
   })
 );
 
 app.get(
-  '/auth/google/callback',
+  '/api/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   authController.setCookie,
   (req, res) => {
     // Successful authentication, redirect home.
     console.log(req.user);
-    res.status(200).json(req.user.id);
+    res.status(200).json(req.user);
   }
 );
 
