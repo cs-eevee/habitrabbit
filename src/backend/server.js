@@ -38,7 +38,6 @@ passport.serializeUser(function(user, done) {
   done(null, user);
 });
 
-<<<<<<< HEAD
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
@@ -111,7 +110,6 @@ app.get('/habits/chat/:habitId', habitController.getMessages, (req, res) => {
 // middleware for creating log
 app.post('/habits/createLog/:id', habitController.createLog, (req, res) => {
   res.status(200).json('habit checked');
-=======
 // Create a *POST* route for url /api/habits/createHabit
 // send data for new habit
 app.post('/api/createHabit', habitController.createHabit, (req, res) => {
@@ -140,7 +138,6 @@ app.post('/api/getHabits', habitController.getHabits, (req, res) => {
 // });
 app.post('/api/login', habitController.loginUser, (req, res) => {
   return res.status(200).json(res.locals.user);
->>>>>>> 23d37feae9a672a4263def1f857a8f2238386db7
 });
 
 // global error handler
@@ -150,13 +147,10 @@ app.use(function(req, res, next) {
   return next(err);
 });
 
-<<<<<<< HEAD
 app.use((err, req, res, next) => {
   res.status(400).json(err.message);
 });
 
-=======
->>>>>>> 23d37feae9a672a4263def1f857a8f2238386db7
 // web socket for chat function
 io.on('connection', socket => {
   // below we listen if our pot is updated

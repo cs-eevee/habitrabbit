@@ -16,13 +16,8 @@ import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import HabitDetails from './HabitDetails';
 import HabitLog from './HabitLog';
-<<<<<<< HEAD
-import { toggleHabit, sendMessage } from './actions';
-import Chat from './Chat.js';
-=======
 import { toggleHabit, sendMessage, getHabits } from './actions';
 import Chat from './Chat';
->>>>>>> 23d37feae9a672a4263def1f857a8f2238386db7
 
 class HabitContainer extends Component {
   constructor() {
