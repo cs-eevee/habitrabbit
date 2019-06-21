@@ -24,16 +24,16 @@ app.use(bodyParser.json());
 // Create a *POST* route for url /api/habits/createHabit
 // send data for new habit
 app.post('/api/createHabit', habitController.createHabit, (req, res) => {
-  return res.status(200).send({data: true});
+  return res.status(200).send({ data: true });
 });
 
 app.post('/api/addParticipant', habitController.addParticipant, (req, res) => {
   //send back confirmation
-  return res.status(200).json({data: "we made it through"});
+  return res.status(200).json({ data: 'we made it through' });
 });
 
 app.post('/api/joinHabit', habitController.addHabit, (req, res) => {
-  return res.status(200).json({data: "we made it through"});
+  return res.status(200).json({ data: 'we made it through' });
 });
 
 // Create a *GET* route for url /api/getHabits

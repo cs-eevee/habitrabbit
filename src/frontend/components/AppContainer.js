@@ -47,30 +47,43 @@ class AppContainer extends Component {
 
   componentDidMount() {
     const data = {
-      userId: 2
+      userId: 2,
     };
     fetch('/api/getHabits', {
       method: 'POST',
-      headers:{
-        'Content-Type': 'application/json'
+      headers: {
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     })
-    .then(res => res.json())
-    .then( something => console.log(something))
-    .catch(err => console.log(err));
+      .then(res => res.json())
+      .then(res => {
+        // console.log('data', data.Logs);
+        this.setState({
+          logs: res.Logs,
+          habits: res.Habits,
+        });
+        return res;
+      })
+      // .then(something => console.log('something', something))
+      .catch(err => console.log(err));
   }
 
   renderHabitContainers = () => {
-    console.log('we rendering habit container?')
+    console.log('this state', this.state);
     return this.state.habits.map((habit, index) => {
       return (
         <HabitContainer
           key={index}
           habitIndex={index}
-          habit={habit}
-          username={currentUsername}
-          userId={currentUserId}
+          habit={habit.habit_name}
+          habitDescription={habit.habit_description}
+          startDate={habit.start_date}
+          endDate={habit.end_date}
+          habitId={habit.id}
+          logs={this.state.logs}
+          // username={currentUsername}
+          // userId={currentUserId}
         />
       );
     });
@@ -93,11 +106,17 @@ class AppContainer extends Component {
     return (
       <div>
         <button onClick={this.toggleAddHabitVisibility}>Add Habit</button>
-        <AddHabit visible={addHabitVisible}/>
+        <AddHabit visible={addHabitVisible} />
         {this.renderHabitContainers()}
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  // habits: state.habits.habits,
+  // currentUsername: state.users.currentUsername,
+  // currentUserId: state.users.currentUserId,
+});
 
 export default connect(mapStateToProps)(AppContainer);

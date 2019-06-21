@@ -11,7 +11,7 @@ const habitController = {
         WHERE logs.user_id = ${userId}`
     );
     const logsArr = logs.rows;
-    console.log('logArr', logsArr);
+    // console.log('logArr', logsArr);
     const habits = await db.query(
       `SELECT DISTINCT habits.id, habits.habit_name, habits.habit_description, habits.start_date, habits.end_date
         FROM habits
@@ -19,12 +19,12 @@ const habitController = {
         WHERE logs.user_id = ${userId}`
     );
     const habitsArr = habits.rows;
-    console.log('habitArr', habitsArr);
+    // console.log('habitArr', habitsArr);
     res.locals.databaseInfo = {
       Logs: logsArr,
       Habits: habitsArr,
     };
-    console.log('info:', res.locals.databaseInfo);
+    // console.log('info:', res.locals.databaseInfo);
     return next();
   },
   async addParticipant(req, res, next) {
@@ -49,10 +49,10 @@ const habitController = {
     buildLogs(userId, habitId, startDate, endDate);
     next();
   },
-  
+
   async addHabit(req, res, next) {
     const { userId, habitId } = req.body;
-    let dbInfo = await db.query( `SELECT start_date, end_date FROM habits WHERE id = '${habitId}'`);
+    let dbInfo = await db.query(`SELECT start_date, end_date FROM habits WHERE id = '${habitId}'`);
     console.log(dbInfo.rows);
     buildLogs(userId, habitId, dbInfo.rows[0].start_date, dbInfo.rows[0].end_date);
     next();
@@ -89,7 +89,6 @@ const habitController = {
       }
     );
   },
-
 };
 
 // function that creates log with day, userid, habitid, and checked boolean
