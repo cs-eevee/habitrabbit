@@ -1,5 +1,7 @@
 export const LOGIN_USER = 'LOGIN_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
+export const GOOGLE_LOGIN = 'GOOGLE_LOGIN';
+export const CREATE_USER = 'CREATE_USER';
 
 /**
  * Login a user by checking credentials in db
@@ -15,18 +17,70 @@ export function loginUser(username, password) {
       username,
       password,
     };
-    fetch('/auth/google', {
-      method: 'GET',
+    fetch('/api/login', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify(data),
     })
-      .then(response => response.json())
+      .then(response => {
+        return response.json();
+      })
+      .then(user => {
+        return dispatch({
+          type: LOGIN_USER,
+          payload: { username: user.username, userId: user.id },
+        });
+      })
+      .catch(err => {
+        alert('🐰 did not find user with that password');
+      });
+  };
+}
+
+export function createUser(username, password) {
+  return function(dispatch) {
+    const data = {
+      username,
+      password,
+    };
+    fetch('/api/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => {
+        return response.json();
+      })
       .then(user => {
         console.log(user);
         return dispatch({
           type: LOGIN_USER,
-          payload: { username: user.username, userId: user._id },
+          payload: { username: user.username, userId: user.password },
+        });
+      })
+      .catch(err => {
+        alert('🐰 did not find user with that password');
+      });
+  };
+}
+
+export function googleLogin() {
+  return function(dispatch) {
+    fetch('/api/auth/google', {
+      method: 'GET',
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(user => {
+        console.log(user);
+        return dispatch({
+          type: LOGIN_USER,
+          payload: { username: user.username, userId: user.id },
         });
       })
       .catch(err => {
@@ -35,59 +89,3 @@ export function loginUser(username, password) {
       });
   };
 }
-
-// export function loginUser (username, password) {
-//   return (dispatch, getState) => {
-//     const url = '/user'
-//     const state = getState();
-//     return axios.get(url, {
-//       headers: {
-//         "name": username,
-//         "pwd": password
-//       }
-//     })
-//       .then(response => {
-//         return response.data})
-//       .then(data => {
-//         if (data) {
-//         let userData = {
-//           userId: data._id
-//           }
-//         return dispatch({
-//           type: types.LOGIN_USER,
-//           payload: userData
-//           });
-//         }
-//         alert('🐰 did not find user with that password');
-//       });
-//     } 
-// }
-
-
-// export function signup (username, password) {
-//   return (dispatch, getState) => {
-//     const url = '/user'
-//     const state = getState();
-//     const body = {
-//       "name": username,
-//       "pwd": password,
-//     }
-//     return axios.post(url, body)
-//       .then(response => {
-//         return response.data})
-//       .then(data => {
-//         if (data) {
-//         let userData = {
-//           userId: data._id
-//           }
-//         return dispatch({
-//           type: types.LOGIN_USER,
-//           payload: userData
-//           });
-//         }
-//         alert('🐰 did not find user with that password');
-//       });
-//     } 
-// }
-
-

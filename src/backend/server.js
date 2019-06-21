@@ -11,9 +11,11 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config();
+const cors = require('cors');
 
 const app = express();
 const server = require('http').Server(app);
@@ -21,66 +23,80 @@ const io = require('socket.io')(server);
 const habitController = require('./habitController.js');
 const authController = require('./authController.js');
 
+app.use(cors({ origin: 'http://localhost:8080' }));
+// app.use(function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//   next();
+// });
+app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: '/auth/google/callback',
+      callbackURL: '/api/auth/google/callback',
     },
     (accessToken, refreshToken, profile, done) => {
       authController
-        .findUser(profile)
+        .findUserGoogle(profile)
         .then(user => {
           if (!user) {
-            authController.createUser(profile);
+            authController.createUserGoogle(profile);
           }
           return user;
         })
         .then(user => {
-          console.log(user);
-          done(null, user);
+          console.log('Back to passport', user);
+          return done(null, user);
         })
-        .catch(err => console.log('Error', err));
+        .catch(err => done(err, null));
     }
   )
 );
 
-app.use(bodyParser.json());
-
-// app.get('/', (req, res) => {
-//   return res.status(200).send('Server Working');
-// });
-
 app.get(
-  '/auth/google',
+  '/api/auth/google',
   passport.authenticate('google', {
     scope: ['profile', 'email'],
   })
 );
 
-<<<<<<< HEAD
-app.post('/api/login', habitController.loginUser, (req, res) => {
-  return res.status(200).json(res.locals.user);
-=======
 app.get(
-  '/auth/google/callback',
+  '/api/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   authController.setCookie,
   (req, res) => {
     // Successful authentication, redirect home.
-    console.log(req.user);
-    res.status(200).json(req.user.id);
+    // res.status(200).send(res.locals.user);
+    res.render('../frontend/AppContainer');
   }
 );
 
+app.post('/api/login', authController.verifyUser, (req, res) => {
+  return res.status(200).json(res.locals.user);
+})
+
+app.post('/api/signup', authController.createUser, (req, res) => {
+  return res.send('Posted to Database');
+})
+
 app.post('/habits/createHabit', habitController.createHabit, (req, res) => {
   return res.status(200).send(res.locals.newHabit);
->>>>>>> eef322b4e78fdb9271cadd733503438452503e08
-});
+}
+);
 
 app.post('/habits/chat/:habitId', habitController.sendMessage, (req, res) => {
   return res.status(200).json(res.locals.message);
@@ -90,13 +106,6 @@ app.get('/habits/chat/:habitId', habitController.getMessages, (req, res) => {
   return res.status(200).json(res.locals.messages);
 });
 
-<<<<<<< HEAD
-app.post('/api/habits/createUser', habitController.createUser, (req, res) => {
-  res.status(200).json('Created user');
-});
-
-=======
->>>>>>> eef322b4e78fdb9271cadd733503438452503e08
 // Create a *POST* route for url /api/habits/createLog/:id
 // middleware for creating log
 app.post('/habits/createLog/:id', habitController.createLog, (req, res) => {
@@ -105,12 +114,13 @@ app.post('/habits/createLog/:id', habitController.createLog, (req, res) => {
 
 // global error handler
 app.use(function(req, res, next) {
-  const err = new Error('Something broke!');
+  const err = new Error();
+  err.message = 'Something Broke!';
   return next(err);
 });
 
 app.use((err, req, res, next) => {
-  res.status(400).json({ msg: err });
+  res.status(400).json(err.message);
 });
 
 // web socket for chat function

@@ -30,6 +30,7 @@ export const socket = configureSocket(store.dispatch);
 const Header = styled.div`
   font-family: American Typewriter;
   font-size: 28px;
+  justify-content: center;
 `;
 
 const App = () => {
