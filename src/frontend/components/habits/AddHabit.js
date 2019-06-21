@@ -12,8 +12,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import styled from 'styled-components';
 import { addHabit } from './actions';
+// import Toggle from './Toggle';
 
 const Container = styled.div``;
 
@@ -44,7 +44,7 @@ class AddHabit extends Component {
     const { name, startDate, endDate, participants } = this.state;
     const { addHabit, currentUserId } = this.props;
     addHabit(name, startDate, endDate, participants, currentUserId);
-    this.props.toggle();
+    // this.props.toggle();
   };
 
   render() {
