@@ -30,6 +30,8 @@ class AppContainer extends Component {
   constructor() {
     super();
     this.state = {
+      logs: [],
+      habits: [],
       addHabitVisible: false,
     };
   }
@@ -43,16 +45,45 @@ class AppContainer extends Component {
    * renderHabitContainers()
    */
 
+  componentDidMount() {
+    const data = {
+      userId: 2,
+    };
+    fetch('/api/getHabits', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(res => res.json())
+      .then(res => {
+        // console.log('data', data.Logs);
+        this.setState({
+          logs: res.Logs,
+          habits: res.Habits,
+        });
+        return res;
+      })
+      // .then(something => console.log('something', something))
+      .catch(err => console.log(err));
+  }
+
   renderHabitContainers = () => {
-    const { habits, currentUsername, currentUserId } = this.props;
-    return habits.map((habit, index) => {
+    console.log('this state', this.state);
+    return this.state.habits.map((habit, index) => {
       return (
         <HabitContainer
           key={index}
           habitIndex={index}
-          habit={habit}
-          username={currentUsername}
-          userId={currentUserId}
+          habit={habit.habit_name}
+          habitDescription={habit.habit_description}
+          startDate={habit.start_date}
+          endDate={habit.end_date}
+          habitId={habit.id}
+          logs={this.state.logs}
+          // username={currentUsername}
+          // userId={currentUserId}
         />
       );
     });
@@ -83,9 +114,9 @@ class AppContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  habits: state.habits.habits,
-  currentUsername: state.users.currentUsername,
-  currentUserId: state.users.currentUserId,
+  // habits: state.habits.habits,
+  // currentUsername: state.users.currentUsername,
+  // currentUserId: state.users.currentUserId,
 });
 
 export default connect(mapStateToProps)(AppContainer);

@@ -154,15 +154,3 @@ function formatDate(date) {
  * @example
  * generateLogs(startDate, endDate)
  */
-
-function generateLogs(startDate, endDate) {
-  const dates = [];
-  const endingDate = new Date(endDate);
-  const currentDate = new Date(startDate);
-  dates.push({ date: formatDate(new Date(startDate)), checked: false });
-  while (currentDate.toDateString() !== endingDate.toDateString()) {
-    const newCurrentDate = currentDate.setDate(currentDate.getDate() + 1);
-    dates.push({ date: formatDate(new Date(newCurrentDate)), checked: false });
-  }
-  return dates;
-}

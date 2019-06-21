@@ -13,12 +13,16 @@ module.exports = env => {
     devServer: {
       contentBase: './dist',
       proxy: {
+<<<<<<< HEAD
         '/api': 'http://localhost:3000',
         // '/api/auth/google': 'https://localhost:3000/api/auth/google',
       },
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': '*',
+=======
+        '/api': 'http://localhost:8000',
+>>>>>>> 23d37feae9a672a4263def1f857a8f2238386db7
       },
       hot: true,
     },

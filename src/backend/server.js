@@ -38,6 +38,7 @@ passport.serializeUser(function(user, done) {
   done(null, user);
 });
 
+<<<<<<< HEAD
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
@@ -110,6 +111,36 @@ app.get('/habits/chat/:habitId', habitController.getMessages, (req, res) => {
 // middleware for creating log
 app.post('/habits/createLog/:id', habitController.createLog, (req, res) => {
   res.status(200).json('habit checked');
+=======
+// Create a *POST* route for url /api/habits/createHabit
+// send data for new habit
+app.post('/api/createHabit', habitController.createHabit, (req, res) => {
+  return res.status(200).send({ data: true });
+});
+
+app.post('/api/addParticipant', habitController.addParticipant, (req, res) => {
+  //send back confirmation
+  return res.status(200).json({ data: 'we made it through' });
+});
+
+app.post('/api/joinHabit', habitController.addHabit, (req, res) => {
+  return res.status(200).json({ data: 'we made it through' });
+});
+
+// Create a *GET* route for url /api/getHabits
+// middleware for retrieving the habit
+app.post('/api/getHabits', habitController.getHabits, (req, res) => {
+  return res.status(200).send(res.locals.databaseInfo);
+});
+
+// // Create a *POST* route for url /api/habits/createUser
+// // middleware for creating user
+// app.post('/api/habits/createUser', habitController.createUser, (req, res) => {
+//   res.status(200).json('Created user');
+// });
+app.post('/api/login', habitController.loginUser, (req, res) => {
+  return res.status(200).json(res.locals.user);
+>>>>>>> 23d37feae9a672a4263def1f857a8f2238386db7
 });
 
 // global error handler
@@ -119,17 +150,20 @@ app.use(function(req, res, next) {
   return next(err);
 });
 
+<<<<<<< HEAD
 app.use((err, req, res, next) => {
   res.status(400).json(err.message);
 });
 
+=======
+>>>>>>> 23d37feae9a672a4263def1f857a8f2238386db7
 // web socket for chat function
 io.on('connection', socket => {
   // below we listen if our pot is updated
   // then emit an event to all connected sockets about the update
-  socket.on('SEND_MESSAGE', state => {
-    console.log('Received from client', state);
-    socket.emit('NEW_MESSAGE', state);
+  socket.on('message', state => {
+    console.log(state);
+    socket.broadcast.emit('NEW_MESSAGE', state);
   });
 });
 
