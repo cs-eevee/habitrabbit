@@ -9,8 +9,7 @@
  * ************************************
  */
 
-/* === BEGIN DUMMY DATA INITIALIZATION  === */
-import { ADD_HABIT, TOGGLE_HABIT, GET_HABITS, SET_HABITS } from './actions';
+import { ADD_HABIT, TOGGLE_HABIT, NEW_MESSAGE, SET_HABITS, GET_HABITS } from './actions';
 
 const bruce = {
   name: 'bruce',
@@ -38,13 +37,34 @@ const logs = [
   { date: 'Sun, Jun 9th, 2019', checked: false },
 ];
 
+const chat = [
+  {
+    author: 'bruce',
+    text: 'Hey whats up guys',
+  },
+  {
+    author: 'rachel',
+    text: 'Lets code for a long time!',
+  },
+  {
+    author: 'jun',
+    text: 'ok ^___^',
+  },
+  {
+    author: 'esther',
+    text: 'notion...lotion!',
+  },
+];
+
 const dummyHabit = {
   user: bruce,
   name: 'code',
   startDate: '2019-05-15T04:00:01.665Z',
   endDate: '2019-06-15T04:00:01.665Z',
-  participants: [],
-  // log: logs,
+  participants: [esther, jun, rachel],
+  log: logs,
+  chat,
+  habitId: 23834,
 };
 
 const dummyHabits = [];
@@ -74,18 +94,17 @@ export default function(state = initialState, action) {
         habits: payload,
       };
     case ADD_HABIT:
-      const { name, startDate, endDate, participants, currentUser } = payload;
-      const user = {
-        name: currentUser,
-      };
+      const { name, startDate, endDate, participants, habitId, userId } = payload;
       const newLogs = generateLogs(startDate, endDate);
       const habitObj = {
-        user,
+        userId,
         name,
         startDate,
         endDate,
         participants,
         logs: newLogs,
+        chat: [],
+        habitId,
       };
       habitsCopy.push(habitObj);
       return { ...state, habits: habitsCopy };
@@ -95,6 +114,17 @@ export default function(state = initialState, action) {
       habitCopy.log[logIndex].checked = !habitCopy.log[logIndex].checked;
       habitsCopy[habitIndex] = habitCopy;
       return { ...state, habits: habitsCopy };
+    case NEW_MESSAGE:
+      console.log(NEW_MESSAGE, payload);
+      const newMessage = {
+        author: payload.username,
+        text: payload.message,
+      };
+      habitsCopy[payload.habitIndex].chat.push(newMessage);
+      return {
+        ...state,
+        habits: habitsCopy,
+      };
     default:
       return state;
   }
@@ -124,15 +154,3 @@ function formatDate(date) {
  * @example
  * generateLogs(startDate, endDate)
  */
-
-function generateLogs(startDate, endDate) {
-  const dates = [];
-  const endingDate = new Date(endDate);
-  const currentDate = new Date(startDate);
-  dates.push({ date: formatDate(new Date(startDate)), checked: false });
-  while (currentDate.toDateString() !== endingDate.toDateString()) {
-    const newCurrentDate = currentDate.setDate(currentDate.getDate() + 1);
-    dates.push({ date: formatDate(new Date(newCurrentDate)), checked: false });
-  }
-  return dates;
-}

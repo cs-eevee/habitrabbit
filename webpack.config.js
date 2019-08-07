@@ -14,6 +14,11 @@ module.exports = env => {
       contentBase: './dist',
       proxy: {
         '/api': 'http://localhost:3000',
+        // '/api/auth/google': 'https://localhost:3000/api/auth/google',
+      },
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*',
       },
       hot: true,
     },

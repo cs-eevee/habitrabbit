@@ -30,13 +30,10 @@ class AppContainer extends Component {
   constructor() {
     super();
     this.state = {
+      logs: [],
+      habits: [],
       addHabitVisible: false,
     };
-  }
-
-  componentDidMount() {
-    const { getHabits } = this.props;
-    getHabits();
   }
 
   /**
@@ -48,10 +45,53 @@ class AppContainer extends Component {
    * renderHabitContainers()
    */
 
+  componentDidMount() {
+    const data = {
+      userId: 2,
+    };
+    fetch('/api/getHabits', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(res => res.json())
+      .then(res => {
+        // console.log('data', data.Logs);
+        this.setState({
+          logs: res.Logs,
+          habits: res.Habits,
+        });
+        return res;
+      })
+      // .then(something => console.log('something', something))
+      .catch(err => console.log(err));
+  }
+
   renderHabitContainers = () => {
-    const { habits } = this.props;
-    return habits.map((habit, index) => {
-      return <HabitContainer key={index} habitIndex={index} habit={habit} />;
+    console.log('this state', this.state);
+    return this.state.habits.map((habit, index) => {
+      return (
+        <HabitContainer
+          key={index}
+          habitIndex={index}
+          habit={habit.habit_name}
+          habitDescription={habit.habit_description}
+          startDate={habit.start_date}
+          endDate={habit.end_date}
+          habitId={habit.id}
+          logs={this.state.logs}
+          // username={currentUsername}
+          // userId={currentUserId}
+        />
+      );
+    });
+  };
+
+  toggleAddHabitVisibility = () => {
+    this.setState({
+      addHabitVisible: true,
     });
   };
 
@@ -62,26 +102,21 @@ class AppContainer extends Component {
   };
 
   render() {
+    const { addHabitVisible } = this.state;
     return (
       <div>
-        <Toggle>
-          {({ on, toggle }) => (
-            <React.Fragment>
-              <Button onClick={toggle}>+ Add Habit</Button>
-              <AddHabit on={on} toggle={toggle} />
-            </React.Fragment>
-          )}
-        </Toggle>
+        <button onClick={this.toggleAddHabitVisibility}>Add Habit</button>
+        <AddHabit visible={addHabitVisible} />
         {this.renderHabitContainers()}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({ habits: state.habits.habits });
-const mapDispatchToProps = dispatch => bindActionCreators({ getHabits }, dispatch);
+const mapStateToProps = state => ({
+  // habits: state.habits.habits,
+  // currentUsername: state.users.currentUsername,
+  // currentUserId: state.users.currentUserId,
+});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AppContainer);
+export default connect(mapStateToProps)(AppContainer);
